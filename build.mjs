@@ -59,7 +59,7 @@ const template = (title, content) => `<!DOCTYPE html>
             </div>
         </div>
         <div class="footer">
-            <p>Made by <a href="https://github.com/aiebrain">@aiebrain</a> · <a href="https://www.youtube.com/@aiebrain">AI 커머스 브레인</a></p>
+            <p>© 2026 <a href="https://www.youtube.com/@aiebrain">AI 커머스 브레인</a></p>
         </div>
     </div>
 </body>
