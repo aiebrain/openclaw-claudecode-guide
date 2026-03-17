@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 자사몰 구축 완전 가이드 (초보자용) | AI 커머스 브레인</title>
+    <meta name="description" content="AI 자사몰 구축 완전 가이드 (초보자용) - 이커머스 셀러를 위한 실전 가이드">
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card: #161616;
+            --border: #2a2a2a;
+            --text: #e0e0e0;
+            --muted: #888;
+            --accent: #4ade80;
+            --accent2: #38bdf8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .back-link { display: inline-block; color: var(--accent); text-decoration: none; font-size: 0.95rem; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.3; }
+        h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+        h3 { font-size: 1.2rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--accent); }
+        h4 { font-size: 1.05rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        p { margin-bottom: 1rem; font-size: 0.95rem; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        strong { color: #fff; }
+        code { background: #1a1a1a; padding: 2px 6px; border-radius: 4px; font-size: 0.85rem; font-family: 'Consolas', 'Monaco', monospace; }
+        pre { background: #1a1a1a; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; overflow-x: auto; }
+        pre code { background: none; padding: 0; font-size: 0.85rem; line-height: 1.6; }
+        ul, ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+        li { margin-bottom: 0.4rem; font-size: 0.95rem; }
+        li ul, li ol { margin-top: 0.4rem; margin-bottom: 0.4rem; }
+        blockquote {
+            border-left: 3px solid var(--accent);
+            background: #111;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        blockquote p { margin-bottom: 0.5rem; }
+        blockquote p:last-child { margin-bottom: 0; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.9rem; }
+        th { background: #1a1a1a; color: var(--accent); text-align: left; padding: 0.75rem; border: 1px solid var(--border); font-weight: 600; }
+        td { padding: 0.75rem; border: 1px solid var(--border); }
+        tr:hover { background: #1a1a1a; }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+        .badge { display: inline-block; background: var(--accent); color: #000; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-bottom: 1rem; }
+        .info-box { background: linear-gradient(135deg, #1a2e1a 0%, #162535 100%); border: 1px solid var(--accent); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+        .info-box p { margin-bottom: 0.5rem; }
+        .cta-box {
+            background: linear-gradient(135deg, #1a2e1a 0%, #162535 100%);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .cta-box h2 { border-bottom: none; margin-top: 0; padding-bottom: 0; font-size: 1.3rem; color: #fff; }
+        .cta-box p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.25rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-block; background: var(--accent); color: #000; font-weight: 600; text-decoration: none; padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.9rem; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.85; text-decoration: none; }
+        .btn-yt { background: #ff0000; color: #fff; }
+        .btn-kakao { background: #fee500; color: #000; }
+        .btn-site { background: var(--accent2); color: #000; }
+        footer { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; }
+        footer a { color: var(--accent); text-decoration: none; }
+        .callout { border-left: 3px solid var(--accent); background: #111; padding: 1rem 1.25rem; margin-bottom: 1.5rem; border-radius: 0 8px 8px 0; }
+        .callout.warning { border-left-color: #f59e0b; }
+        .callout.danger { border-left-color: #ef4444; }
+        .callout.success { border-left-color: var(--accent); }
+        .callout.info { border-left-color: var(--accent2); }
+        .callout-title { font-weight: 700; margin-bottom: 0.5rem; }
+        @media (max-width: 600px) {
+            .container { padding: 1.25rem 1rem; }
+            h1 { font-size: 1.5rem; }
+            table { font-size: 0.8rem; }
+            th, td { padding: 0.5rem; }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 가이드 목록으로 돌아가기</a>
+        <span class="badge">AI 커머스 브레인</span>
+        
+        <h1>🏪 AI 자사몰 구축 완전 가이드 (초보자용)</h1>
+<div class="callout info">
+<div class="callout-title">이 가이드는?</div>
+<p>코딩 경험 없이 <strong>AI 도구만으로 자사몰을 구축</strong>하는 실전 가이드입니다.<br>Lovable(프론트엔드) + Supabase(백엔드) + Toss/래피드(결제)로 2주 만에 완성합니다.<br>월 비용 거의 $0에서 시작 가능!</p>
+</div>
+<hr>
+<h2>📑 목차</h2>
+<ol>
+<li>1. 전체 아키텍처</li>
+<li>2. 프론트엔드 — Lovable + Vercel</li>
+<li>3. 백엔드 — Supabase</li>
+<li>4. 결제 연동 — Toss + 래피드</li>
+<li>5. 부가 기능 연동</li>
+<li>6. AI 운영 자동화</li>
+<li>7. 구축 로드맵 (2주)</li>
+<li>8. 월 비용 정리</li>
+<li>9. 자주 묻는 질문 (FAQ)</li>
+<li>10. 참고 링크 모음</li>
+</ol>
+<hr>
+<h2>1. 전체 아키텍처</h2>
+<div class="callout info">
+<div class="callout-title">한 줄 요약</div>
+<p><strong>Lovable</strong>이 화면을 만들고, <strong>Supabase</strong>가 데이터를 저장하고, <strong>Toss/래피드</strong>가 결제를 처리합니다.</p>
+</div>
+<pre><code>┌─────────────────────────────────────────────┐
+│           👤 고객 (브라우저/모바일)            │
+└──────────────────┬──────────────────────────┘
+                   │
+┌──────────────────▼──────────────────────────┐
+│  🎨 프론트엔드                                │
+│  Lovable (AI가 UI 자동 생성)                  │
+│  → Vercel (배포 + 도메인 + CDN)              │
+└──────────────────┬──────────────────────────┘
+                   │ API 호출
+┌──────────────────▼──────────────────────────┐
+│  ⚙️ 백엔드 — Supabase                        │
+│  ┌──────────┬──────────┬──────────────────┐ │
+│  │ Auth     │ Database │ Storage          │ │
+│  │ 소셜로그인│ PostgreSQL│ 상품 이미지      │ │
+│  └──────────┴──────────┴──────────────────┘ │
+│  Edge Functions (비즈니스 로직)               │
+└───┬──────────┬──────────┬───────────────────┘
+    │          │          │
+┌───▼───┐ ┌───▼────┐ ┌──▼─────────────────────┐
+│💳 Toss│ │🛒래피드│ │ 🔌 부가 서비스          │
+│ 국내  │ │콘텐츠  │ │ Algolia·센드맨·채널톡   │
+└───────┘ └────────┘ └────────────────────────┘
+                   │
+┌──────────────────▼──────────────────────────┐
+│  🤖 AI 자동화 — Claude Code + Claude API      │
+│  리뷰답글 · 상품설명 자동생성 · 전자책 발송    │
+└─────────────────────────────────────────────┘
+</code></pre>
+<h3>전체 툴 한눈에 보기</h3>
+<table>
+<tr>
+<th>영역</th>
+<th>도구</th>
+<th>역할</th>
+</tr>
+<tr>
+<td>프론트엔드</td>
+<td><strong>Lovable</strong></td>
+<td>AI로 쇼핑몰 UI 자동 생성</td>
+</tr>
+<tr>
+<td>배포</td>
+<td><strong>Vercel</strong></td>
+<td>자동 빌드 + 도메인 + HTTPS</td>
+</tr>
+<tr>
+<td>백엔드</td>
+<td><strong>Supabase</strong></td>
+<td>DB + 인증 + 파일저장 + API</td>
+</tr>
+<tr>
+<td>결제 (국내)</td>
+<td><strong>Toss Payments</strong></td>
+<td>카드/카카오페이/네이버페이</td>
+</tr>
+<tr>
+<td>결제 (콘텐츠)</td>
+<td><strong>래피드(Latpeed)</strong></td>
+<td>전자책/디지털 상품/멤버십 판매</td>
+</tr>
+<tr>
+<td>자동 발송</td>
+<td><strong>센드맨</strong></td>
+<td>Cafe24 전자책/파일/코드 자동 발송</td>
+</tr>
+<tr>
+<td>검색</td>
+<td><strong>Algolia</strong></td>
+<td>상품 검색 자동완성</td>
+</tr>
+<tr>
+<td>이메일</td>
+<td><strong>Resend</strong></td>
+<td>주문확인/배송 이메일</td>
+</tr>
+<tr>
+<td>알림톡</td>
+<td><strong>알리고</strong></td>
+<td>카카오 알림톡/문자</td>
+</tr>
+<tr>
+<td>고객채팅</td>
+<td><strong>Channel Talk</strong></td>
+<td>웹 채팅 + 카카오 연동</td>
+</tr>
+<tr>
+<td>분석</td>
+<td><strong>PostHog</strong></td>
+<td>방문자 행동/퍼널 분석</td>
+</tr>
+<tr>
+<td>이미지</td>
+<td><strong>Cloudinary</strong></td>
+<td>자동 최적화/배경 제거</td>
+</tr>
+<tr>
+<td>AI 자동화</td>
+<td><strong>Claude Code + API</strong></td>
+<td>리뷰 답글/상품 설명 자동 생성</td>
+</tr>
+</table>
+<hr>
+<h2>2. 프론트엔드 — Lovable + Vercel</h2>
+<h3>2-1. Lovable이란?</h3>
+<p>문장(프롬프트)을 입력하면 <strong>AI가 React + TailwindCSS 코드를 자동 생성</strong>해주는 서비스입니다.</p>
+<p>코딩을 전혀 몰라도 프로페셔널한 쇼핑몰 화면을 만들 수 있습니다.</p>
+<div class="callout info">
+<div class="callout-title">Lovable의 강점</div>
+<p>- 프롬프트 → 즉시 화면 생성 (30초 이내)<br>- 수정도 프롬프트로 ("헤더 색상 검정으로 바꿔줘")<br>- 반응형(모바일) 자동 지원<br>- GitHub 자동 연동 → Vercel 배포까지 원클릭</p>
+</div>
+<h3>2-2. Lovable 시작하기</h3>
+<ol>
+<li><a href="https://lovable.dev" target="_blank">lovable.dev</a> 가입</li>
+<li><strong>"New Project"</strong> 클릭</li>
+<li>아래 프롬프트를 입력:</li>
+</ol>
+<pre><code>한국어 쇼핑몰을 만들어줘.
+
+필요한 페이지:
+- 메인 (히어로 배너 + 인기 상품 그리드 4열)
+- 상품 목록 (카테고리 필터 + 검색바)
+- 상품 상세 (이미지 갤러리 + 옵션 선택 + 장바구니 담기)
+- 장바구니 (수량 변경 + 삭제 + 총액 계산)
+- 결제 페이지 (배송지 입력 + 결제수단 선택)
+- 마이페이지 (주문 내역 + 배송 추적)
+- 로그인/회원가입 (카카오/구글 소셜 로그인)
+
+디자인:
+- 미니멀, 화이트 배경
+- 라운드 카드 (border-radius: 12px)
+- 모바일 우선 반응형
+</code></pre>
+<div class="callout info">
+<div class="callout-title">수정 프롬프트 예시</div>
+<p>``<code><br>- 헤더에 로고를 왼쪽으로, 장바구니 아이콘을 오른쪽에 추가해줘<br>- 상품 카드에 할인율 빨간 뱃지 추가해줘 (예: -30%)<br>- 장바구니 아이콘에 담긴 상품 수 뱃지 표시해줘<br>- 푸터에 고객센터 전화번호와 이메일 추가해줘<br></code>``</p>
+</div>
+<h3>2-3. Vercel 배포</h3>
+<p><strong>단계:</strong></p>
+<ol>
+<li>Lovable → <strong>"Deploy"</strong> 버튼 → GitHub 자동 push</li>
+<li><a href="https://vercel.com" target="_blank">vercel.com</a> 가입 (GitHub 계정으로)</li>
+<li><strong>"Import Project"</strong> → Lovable이 만든 레포 선택</li>
+<li><strong>"Deploy"</strong> 클릭 → 30초 내 배포 완료!</li>
+</ol>
+<div class="callout success">
+<div class="callout-title">Vercel 무료 플랜</div>
+<p>- 월 100GB 트래픽 (소규모 쇼핑몰 충분)<br>- HTTPS(SSL) 자동 적용<br>- 글로벌 CDN (전 세계 빠른 로딩)<br>- Preview 배포 (수정 사항 라이브 전 미리 확인)</p>
+</div>
+<h3>2-4. 도메인 연결</h3>
+<ol>
+<li>도메인 구매: <a href="https://gabia.com" target="_blank">가비아</a>, <a href="https://whois.co.kr" target="_blank">후이즈</a> (연 1~2만원)</li>
+<li>Vercel → <strong>Settings → Domains</strong> → 구매한 도메인 입력</li>
+<li>도메인 DNS 설정에서 CNAME 레코드 추가:</li>
+<li>호스트: <code>@</code> 또는 <code>www</code></li>
+<li>값: <code>cname.vercel-dns.com</code></li>
+<li>5~30분 후 SSL 자동 적용 → <code>https://yourbrand.com</code> 접속 가능!</li>
+</ol>
+<hr>
+<h2>3. 백엔드 — Supabase</h2>
+<h3>3-1. Supabase란?</h3>
+<p><strong>Firebase의 오픈소스 대안</strong>으로, 데이터베이스 + 인증 + 파일 저장을 한 곳에서 제공합니다.</p>
+<div class="callout info">
+<div class="callout-title">왜 Supabase?</div>
+<p>- 무료 플랜: DB 500MB + Storage 1GB (시작 충분)<br>- 카카오/구글 소셜 로그인 내장<br>- 실시간 데이터 동기화 (주문 상태 즉시 반영)<br>- SQL Editor 내장 (복붙만으로 테이블 생성)</p>
+</div>
+<h3>3-2. 프로젝트 생성</h3>
+<ol>
+<li><a href="https://supabase.com" target="_blank">supabase.com</a> 가입 (GitHub 계정)</li>
+<li><strong>"New Project"</strong> → 이름 입력</li>
+<li>리전: <strong>Northeast Asia (Tokyo)</strong> 선택 (한국에서 가장 빠름)</li>
+<li>DB 비밀번호 설정 → <strong>"Create"</strong></li>
+</ol>
+<h3>3-3. 데이터베이스 스키마</h3>
+<div class="callout info">
+<div class="callout-title">복붙만 하면 됩니다</div>
+<p>아래 코드를 이해할 필요 없어요. Supabase SQL Editor에 붙여넣고 실행하면 테이블이 자동으로 만들어집니다.</p>
+</div>
+<p><strong>회원 테이블:</strong></p>
+<pre><code>CREATE TABLE profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id),
+  name TEXT,
+  phone TEXT,
+  address TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+</code></pre>
+<p><strong>상품 테이블:</strong></p>
+<pre><code>CREATE TABLE products (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  description TEXT,
+  price INTEGER NOT NULL,
+  sale_price INTEGER,
+  category TEXT,
+  image_urls TEXT[],
+  stock INTEGER DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+</code></pre>
+<p><strong>주문 테이블:</strong></p>
+<pre><code>CREATE TABLE orders (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES profiles(id),
+  status TEXT DEFAULT &#x27;pending&#x27;,
+  total_amount INTEGER NOT NULL,
+  shipping_address TEXT,
+  payment_method TEXT,
+  payment_key TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+</code></pre>
+<h3>3-4. 소셜 로그인 설정</h3>
+<h4>카카오 로그인</h4>
+<ol>
+<li><a href="https://developers.kakao.com" target="_blank">developers.kakao.com</a> → 앱 생성</li>
+<li><strong>카카오 로그인 → 활성화</strong></li>
+<li><strong>Redirect URI</strong> 등록: <code>https://YOUR_PROJECT.supabase.co/auth/v1/callback</code></li>
+<li>Supabase → <strong>Auth → Providers → Kakao</strong> → ID/Secret 입력</li>
+</ol>
+<div class="callout info">
+<div class="callout-title">소셜 로그인 왜 중요한가?</div>
+<p>일반 회원가입 전환율: 약 20% / 카카오 로그인: 약 <strong>60~70%</strong> (3배 이상!)</p>
+</div>
+<h3>3-5. Storage (파일 저장)</h3>
+<ol>
+<li>Supabase → <strong>Storage → New Bucket</strong> → <code>product-images</code></li>
+<li><strong>Public</strong> 체크 (상품 이미지 공개 접근)</li>
+<li>파일 크기 제한: 5MB</li>
+</ol>
+<h3>3-6. Edge Functions</h3>
+<table>
+<tr>
+<th>함수</th>
+<th>역할</th>
+</tr>
+<tr>
+<td><code>handle-payment</code></td>
+<td>Toss/래피드 결제 확인 후 주문 상태 업데이트</td>
+</tr>
+<tr>
+<td><code>check-stock</code></td>
+<td>결제 전 재고 확인 + 결제 후 재고 차감</td>
+</tr>
+<tr>
+<td><code>send-notification</code></td>
+<td>주문 확인 후 알리고 API로 알림톡 발송</td>
+</tr>
+<tr>
+<td><code>auto-reply-review</code></td>
+<td>Claude API로 리뷰 자동 답글</td>
+</tr>
+</table>
+<hr>
+<h2>4. 결제 연동 — Toss + 래피드</h2>
+<h3>4-1. 결제 분기 구조</h3>
+<pre><code>고객이 &quot;결제하기&quot; 클릭
+  │
+  ├─ 🇰🇷 국내 일반 결제 → Toss Payments
+  │   ├─ 신용/체크카드
+  │   ├─ 카카오페이
+  │   ├─ 네이버페이
+  │   └─ 계좌이체
+  │
+  └─ 📚 디지털 콘텐츠 판매 → 래피드(Latpeed)
+      ├─ 전자책/PDF
+      ├─ 온라인 강의
+      ├─ 디지털 파일
+      └─ 멤버십/구독
+</code></pre>
+<h3>4-2. Toss Payments (국내 일반 결제)</h3>
+<div class="callout success">
+<div class="callout-title">국내 결제 1위</div>
+<p>카드/카카오페이/네이버페이/계좌이체 — 한국 고객 결제의 95% 커버</p>
+</div>
+<p><strong>연동 단계:</strong></p>
+<ol>
+<li><a href="https://developers.tosspayments.com" target="_blank">developers.tosspayments.com</a> 가입</li>
+<li><strong>사업자등록번호 인증</strong> → API 키 발급</li>
+<li>클라이언트 키 → 프론트엔드 / 시크릿 키 → Edge Function</li>
+</ol>
+<p><strong>수수료:</strong></p>
+<table>
+<tr>
+<th>결제 수단</th>
+<th>수수료</th>
+</tr>
+<tr>
+<td>신용카드</td>
+<td>3.3%</td>
+</tr>
+<tr>
+<td>카카오페이</td>
+<td>3.3%</td>
+</tr>
+<tr>
+<td>네이버페이</td>
+<td>3.3%</td>
+</tr>
+<tr>
+<td>계좌이체</td>
+<td>1.5%</td>
+</tr>
+</table>
+<h3>4-3. 래피드(Latpeed) — 디지털 콘텐츠 판매</h3>
+<div class="callout info">
+<div class="callout-title">사업자 등록 없이 3분 만에 판매 시작</div>
+<p>전자책, 디지털 파일, 온라인 강의, 멤버십 판매에 특화된 1인 기업용 판매 도구</p>
+</div>
+<p><strong>래피드의 강점:</strong></p>
+<ul>
+<li>사업자 등록/심사 없이 바로 판매 가능</li>
+<li>링크 하나로 결제 + 자동 발송</li>
+<li>멤버십/구독 결제 지원</li>
+<li>구글폼 설문 + 결제 동시 처리</li>
+<li>웹훅/구글시트/노션 연동</li>
+</ul>
+<p><strong>시작하기:</strong></p>
+<ol>
+<li><a href="https://www.latpeed.com" target="_blank">latpeed.com</a> 가입 (간단 인증)</li>
+<li>상품 등록 (제목 + 가격 + 파일 업로드)</li>
+<li>판매 링크 생성 → 공유 → 끝!</li>
+</ol>
+<div class="callout info">
+<div class="callout-title">래피드 vs Toss 사용 시점</div>
+<p>- <strong>실물 상품</strong> (의류, 식품 등) → Toss Payments<br>- <strong>디지털 상품</strong> (전자책, 강의, 파일) → 래피드<br>- <strong>혼합 판매</strong> → 둘 다 연동</p>
+</div>
+<hr>
+<h2>5. 부가 기능 연동</h2>
+<h3>5-1. 센드맨 — 전자책/파일 자동 발송 (Cafe24)</h3>
+<div class="callout success">
+<div class="callout-title">결제 완료 → 파일 자동 발송 → 배송완료 자동 처리</div>
+<p>Cafe24 앱 스토어의 파일/링크/코드 판매 자동화 서비스</p>
+</div>
+<table>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+<tr>
+<td>기능</td>
+<td>결제 완료 시 파일/링크/코드 자동 발송 + 배송완료 처리</td>
+</tr>
+<tr>
+<td>무료 체험</td>
+<td>설치 시 30일간 무료</td>
+</tr>
+<tr>
+<td>설치</td>
+<td><a href="https://store.cafe24.com/kr/apps/20345" target="_blank">Cafe24 앱스토어</a></td>
+</tr>
+<tr>
+<td>활용</td>
+<td>전자책, 디지털 다운로드, 라이선스 코드, 수강 링크 자동 발송</td>
+</tr>
+</table>
+<h3>5-2. Algolia — 상품 검색</h3>
+<table>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+<tr>
+<td>용도</td>
+<td>상품 검색 자동완성, 오타 보정, 필터링</td>
+</tr>
+<tr>
+<td>무료</td>
+<td>월 10,000건 검색</td>
+</tr>
+<tr>
+<td>대안</td>
+<td>Supabase Full-text Search (상품 100개 이하 시)</td>
+</tr>
+</table>
+<h3>5-3. Resend + 알리고 — 이메일/알림</h3>
+<table>
+<tr>
+<th>서비스</th>
+<th>용도</th>
+<th>무료 한도</th>
+</tr>
+<tr>
+<td><strong>Resend</strong></td>
+<td>주문확인/배송 이메일</td>
+<td>월 3,000통</td>
+</tr>
+<tr>
+<td><strong>알리고</strong></td>
+<td>카카오 알림톡/문자</td>
+<td>건당 8~15원</td>
+</tr>
+</table>
+<h3>5-4. Channel Talk — 고객 채팅</h3>
+<ul>
+<li>웹사이트 우측 하단 <strong>채팅 버블</strong> (1줄 코드로 설치)</li>
+<li>카카오톡 연동 (고객이 카톡으로도 문의 가능)</li>
+<li><strong>AI 자동 응답</strong> 기능 내장</li>
+<li>무료: 운영자 1명</li>
+</ul>
+<h3>5-5. PostHog — 분석</h3>
+<ul>
+<li><strong>퍼널 분석</strong>: 유입 → 상품보기 → 장바구니 → 결제 (어디서 이탈?)</li>
+<li><strong>세션 리플레이</strong>: 고객 행동 녹화</li>
+<li><strong>A/B 테스트</strong></li>
+<li>무료: 월 <strong>100만 이벤트</strong></li>
+</ul>
+<h3>5-6. Cloudinary — 이미지 최적화</h3>
+<table>
+<tr>
+<th>기능</th>
+<th>설명</th>
+</tr>
+<tr>
+<td>자동 리사이징</td>
+<td>디바이스에 맞는 크기로 자동 변환</td>
+</tr>
+<tr>
+<td>WebP 변환</td>
+<td>이미지 용량 70% 감소</td>
+</tr>
+<tr>
+<td>AI 배경 제거</td>
+<td>상품 사진 배경 자동 제거</td>
+</tr>
+<tr>
+<td>무료</td>
+<td>25GB Storage + 월 25GB bandwidth</td>
+</tr>
+</table>
+<hr>
+<h2>6. AI 운영 자동화</h2>
+<div class="callout info">
+<div class="callout-title">핵심</div>
+<p><strong>Claude Code</strong>로 자동화 코드를 직접 구현하고, <strong>Claude API</strong>로 AI 기능을 연동합니다.</p>
+</div>
+<h3>6-1. 전자책 자동 발송 (센드맨)</h3>
+<pre><code>🛒 고객이 전자책 결제 완료
+  → Cafe24 센드맨이 자동 감지
+  → 파일/링크/코드 즉시 발송 (이메일/문자)
+  → 배송완료 자동 처리
+  → CS 문의 대폭 감소!
+</code></pre>
+<div class="callout info">
+<div class="callout-title">센드맨 활용 예시</div>
+<p>- 전자책 PDF 자동 발송<br>- 수강 링크 자동 전달<br>- 라이선스 코드 자동 발급<br>- 디지털 다운로드 링크 발송</p>
+</div>
+<h3>6-2. 리뷰 답글 자동화 (Claude Code)</h3>
+<div class="callout info">
+<div class="callout-title">Claude Code로 직접 구현 가능</div>
+<p>Supabase의 리뷰 테이블을 모니터링하고, 새 리뷰가 등록되면 Claude API로 답글을 자동 생성하는 Edge Function을 만듭니다.</p>
+</div>
+<pre><code>⭐ 고객이 리뷰 작성 (Supabase INSERT 트리거)
+  → Edge Function 실행
+  → Claude API에 리뷰 전달
+  → &quot;이 리뷰에 친절하고 전문적인 답글을 작성해줘&quot;
+  → 답글 자동 저장 → 고객에게 노출
+</code></pre>
+<div class="callout info">
+<div class="callout-title">Claude 답글 예시</div>
+<p><strong>고객 리뷰:</strong> "배송 빠르고 품질 좋아요! 다만 색상이 사진이랑 살짝 달라요"<br><strong>AI 답글:</strong> "소중한 리뷰 감사합니다! 😊 빠른 배송과 품질에 만족해주셔서 기쁩니다. 색상 차이에 대해 불편을 드려 죄송해요. 모니터 설정에 따라 약간의 차이가 있을 수 있는데, 더 정확한 색상 표현을 위해 촬영 환경을 개선하고 있습니다."</p>
+</div>
+<h3>6-3. 상품 설명 자동 생성 (Claude Code)</h3>
+<pre><code>📦 새 상품 등록 (이름 + 카테고리만 입력)
+  → Claude API 호출
+  → &quot;이 상품의 매력적인 설명을 작성해줘. SEO 키워드 포함&quot;
+  → products.description 자동 업데이트
+</code></pre>
+<h3>6-4. 재고 알림 자동화</h3>
+<pre><code>📊 재고 5개 이하 감지 (Supabase 트리거)
+  → Edge Function → 알리고 알림톡
+  → &quot;⚠️ [상품명] 재고 3개 남음 — 발주 필요&quot;
+</code></pre>
+<hr>
+<h2>7. 구축 로드맵 (2주)</h2>
+<div class="callout info">
+<div class="callout-title">하루 2~3시간씩 진행 기준</div>
+<p></p>
+</div>
+<table>
+<tr>
+<th>일차</th>
+<th>작업</th>
+<th>도구</th>
+<th>예상 시간</th>
+</tr>
+<tr>
+<td><strong>1일차</strong></td>
+<td>Supabase 프로젝트 생성 + DB 스키마</td>
+<td>Supabase</td>
+<td>2시간</td>
+</tr>
+<tr>
+<td><strong>2일차</strong></td>
+<td>소셜 로그인 설정 (카카오/구글)</td>
+<td>Supabase</td>
+<td>2시간</td>
+</tr>
+<tr>
+<td><strong>3일차</strong></td>
+<td>Lovable로 메인/상품 목록 UI 생성</td>
+<td>Lovable</td>
+<td>3시간</td>
+</tr>
+<tr>
+<td><strong>4일차</strong></td>
+<td>상품 상세/장바구니/결제 UI</td>
+<td>Lovable</td>
+<td>3시간</td>
+</tr>
+<tr>
+<td><strong>5일차</strong></td>
+<td>Vercel 배포 + 도메인 연결</td>
+<td>Vercel</td>
+<td>1시간</td>
+</tr>
+<tr>
+<td><strong>6일차</strong></td>
+<td>Toss Payments 연동 (국내 결제)</td>
+<td>Toss</td>
+<td>3시간</td>
+</tr>
+<tr>
+<td><strong>7일차</strong></td>
+<td>래피드 연동 (디지털 콘텐츠 판매)</td>
+<td>래피드</td>
+<td>2시간</td>
+</tr>
+<tr>
+<td><strong>8일차</strong></td>
+<td>센드맨 연동 + 이미지 Cloudinary</td>
+<td>센드맨 + Cloudinary</td>
+<td>2시간</td>
+</tr>
+<tr>
+<td><strong>9일차</strong></td>
+<td>Algolia 검색 연동</td>
+<td>Algolia</td>
+<td>2시간</td>
+</tr>
+<tr>
+<td><strong>10일차</strong></td>
+<td>Channel Talk + Resend 연동</td>
+<td>Channel Talk + Resend</td>
+<td>2시간</td>
+</tr>
+<tr>
+<td><strong>11일차</strong></td>
+<td>Claude Code로 리뷰 답글 자동화</td>
+<td>Claude Code</td>
+<td>3시간</td>
+</tr>
+<tr>
+<td><strong>12일차</strong></td>
+<td>Claude Code로 상품 설명 자동화</td>
+<td>Claude Code</td>
+<td>2시간</td>
+</tr>
+<tr>
+<td><strong>13일차</strong></td>
+<td>PostHog 분석 설치</td>
+<td>PostHog</td>
+<td>1시간</td>
+</tr>
+<tr>
+<td><strong>14일차</strong></td>
+<td>전체 테스트 + 오픈! 🎉</td>
+<td>전체</td>
+<td>3시간</td>
+</tr>
+</table>
+<hr>
+<h2>8. 월 비용 정리</h2>
+<h3>시작 단계 (월 주문 100건 이하)</h3>
+<table>
+<tr>
+<th>서비스</th>
+<th>비용</th>
+<th>비고</th>
+</tr>
+<tr>
+<td>Lovable</td>
+<td><strong>$0</strong></td>
+<td>무료 플랜</td>
+</tr>
+<tr>
+<td>Vercel</td>
+<td><strong>$0</strong></td>
+<td>100GB 트래픽</td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td><strong>$0</strong></td>
+<td>500MB DB</td>
+</tr>
+<tr>
+<td>Toss Payments</td>
+<td><strong>수수료만</strong></td>
+<td>3.3%</td>
+</tr>
+<tr>
+<td>래피드</td>
+<td><strong>무료~</strong></td>
+<td>기본 무료, 프리미엄 유료</td>
+</tr>
+<tr>
+<td>센드맨</td>
+<td><strong>무료 30일</strong></td>
+<td>이후 유료 전환</td>
+</tr>
+<tr>
+<td>Resend</td>
+<td><strong>$0</strong></td>
+<td>월 3,000통</td>
+</tr>
+<tr>
+<td>PostHog</td>
+<td><strong>$0</strong></td>
+<td>100만 이벤트</td>
+</tr>
+<tr>
+<td>Channel Talk</td>
+<td><strong>$0</strong></td>
+<td>1명</td>
+</tr>
+<tr>
+<td><strong>합계</strong></td>
+<td><strong>결제 수수료만</strong></td>
+<td></td>
+</tr>
+</table>
+<div class="callout success">
+<div class="callout-title">초기 비용 거의 $0!</div>
+<p>매출의 3.3%만 결제 수수료로 나갑니다. 고정비 없이 시작 가능!</p>
+</div>
+<h3>성장 단계 (월 주문 1,000건+)</h3>
+<table>
+<tr>
+<th>서비스</th>
+<th>비용</th>
+<th>비고</th>
+</tr>
+<tr>
+<td>Lovable</td>
+<td>$25/월</td>
+<td>Pro</td>
+</tr>
+<tr>
+<td>Vercel</td>
+<td>$20/월</td>
+<td>Pro</td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td>$25/월</td>
+<td>Pro</td>
+</tr>
+<tr>
+<td>Toss</td>
+<td>수수료</td>
+<td>3.3%</td>
+</tr>
+<tr>
+<td>래피드</td>
+<td>유료 플랜</td>
+<td>판매량 기준</td>
+</tr>
+<tr>
+<td>Algolia</td>
+<td>$50/월</td>
+<td>검색 Pro</td>
+</tr>
+<tr>
+<td>Claude API</td>
+<td>$10~30/월</td>
+<td>사용량 기준</td>
+</tr>
+<tr>
+<td><strong>합계</strong></td>
+<td><strong>약 $150/월</strong></td>
+<td><strong>약 20만원</strong></td>
+</tr>
+</table>
+<hr>
+<h2>9. 자주 묻는 질문 (FAQ)</h2>
+<div class="callout info">
+<div class="callout-title">Q. 코딩을 전혀 모르는데 정말 가능한가요?</div>
+<p><strong>네.</strong> Lovable이 UI를, Supabase가 백엔드를 자동 처리합니다. SQL도 복사-붙여넣기만 하면 됩니다.</p><p>[!question] Q. 사업자등록증이 꼭 필요한가요?<br>Toss Payments 연동 시 <strong>필수</strong>입니다. 단, 래피드는 사업자 없이 판매 가능!</p><p>[!question] Q. 전자책/디지털 파일은 어떻게 판매하나요?<br><strong>래피드</strong>로 결제 링크를 만들거나, <strong>센드맨</strong>으로 Cafe24에서 결제 후 자동 발송합니다.</p><p>[!question] Q. Cafe24나 Shopify 대비 장점은?<br><strong>월정액 없이 시작</strong> 가능하고, 디자인/기능 커스터마이징이 <strong>완전히 자유</strong>롭습니다.</p><p>[!question] Q. 리뷰 답글 자동화는 어떻게 하나요?<br><strong>Claude Code</strong>로 Supabase Edge Function을 만들면 됩니다. 새 리뷰 → Claude API → 자동 답글 저장.</p>
+</div>
+<hr>
+<h2>10. 참고 링크 모음</h2>
+<table>
+<tr>
+<th>서비스</th>
+<th>URL</th>
+<th>용도</th>
+</tr>
+<tr>
+<td>Lovable</td>
+<td><a href="https://lovable.dev" target="_blank">lovable.dev</a></td>
+<td>AI UI 생성</td>
+</tr>
+<tr>
+<td>Vercel</td>
+<td><a href="https://vercel.com" target="_blank">vercel.com</a></td>
+<td>배포</td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td><a href="https://supabase.com" target="_blank">supabase.com</a></td>
+<td>백엔드</td>
+</tr>
+<tr>
+<td>Toss Payments</td>
+<td><a href="https://developers.tosspayments.com" target="_blank">developers.tosspayments.com</a></td>
+<td>국내 결제</td>
+</tr>
+<tr>
+<td>래피드</td>
+<td><a href="https://www.latpeed.com" target="_blank">latpeed.com</a></td>
+<td>디지털 콘텐츠 판매</td>
+</tr>
+<tr>
+<td>센드맨</td>
+<td><a href="https://store.cafe24.com/kr/apps/20345" target="_blank">Cafe24 앱스토어</a></td>
+<td>파일 자동 발송</td>
+</tr>
+<tr>
+<td>Algolia</td>
+<td><a href="https://www.algolia.com" target="_blank">algolia.com</a></td>
+<td>검색</td>
+</tr>
+<tr>
+<td>Resend</td>
+<td><a href="https://resend.com" target="_blank">resend.com</a></td>
+<td>이메일</td>
+</tr>
+<tr>
+<td>알리고</td>
+<td><a href="https://smartsms.aligo.in" target="_blank">smartsms.aligo.in</a></td>
+<td>알림톡</td>
+</tr>
+<tr>
+<td>Channel Talk</td>
+<td><a href="https://channel.io" target="_blank">channel.io</a></td>
+<td>채팅</td>
+</tr>
+<tr>
+<td>PostHog</td>
+<td><a href="https://posthog.com" target="_blank">posthog.com</a></td>
+<td>분석</td>
+</tr>
+<tr>
+<td>Cloudinary</td>
+<td><a href="https://cloudinary.com" target="_blank">cloudinary.com</a></td>
+<td>이미지</td>
+</tr>
+</table>
+<hr>
+<div class="callout success">
+<div class="callout-title">🎉 축하합니다!</div>
+<p>이 가이드를 따라 2주면 <strong>코딩 없이 AI로 자사몰을 완성</strong>할 수 있습니다.<br>👉 <a href="https://open.kakao.com/o/gfNHYBwh" target="_blank">오픈채팅방 참여하기</a></p>
+</div>
+<hr>
+<h2>관련 노트</h2>
+<ul>
+<li>AI 기반 자사몰 구축 아키텍처</li>
+<li>NEXIT SaaS Template 분석</li>
+<li>Cafe24 자사몰 셋팅 완전 가이드</li>
+</ul>
+
+        <div class="cta-box">
+            <h2>🚀 더 많은 AI 활용법이 궁금하다면?</h2>
+            <p>AI로 이커머스 자동화하고, 생산성 10배 올리는 실전 노하우를 공유합니다.</p>
+            <div class="cta-buttons">
+                <a href="https://www.youtube.com/@aiebrain" target="_blank" class="btn btn-yt">▶ 유튜브 구독하기</a>
+                <a href="https://pf.kakao.com/_DIiBn" target="_blank" class="btn btn-kakao">💬 카카오 채널</a>
+                <a href="https://aiebrain.lovable.app/" target="_blank" class="btn btn-site">🌐 포트폴리오 보기</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 <a href="https://www.youtube.com/@aiebrain" target="_blank">AI 커머스 브레인</a></p>
+        </footer>
+    </div>
+</body>
+</html>

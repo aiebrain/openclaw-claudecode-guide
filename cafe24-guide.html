@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe24 자사몰 셋팅 완전 가이드 | AI 커머스 브레인</title>
+    <meta name="description" content="Cafe24 자사몰 셋팅 완전 가이드 - 이커머스 셀러를 위한 실전 가이드">
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card: #161616;
+            --border: #2a2a2a;
+            --text: #e0e0e0;
+            --muted: #888;
+            --accent: #4ade80;
+            --accent2: #38bdf8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .back-link { display: inline-block; color: var(--accent); text-decoration: none; font-size: 0.95rem; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.3; }
+        h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+        h3 { font-size: 1.2rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--accent); }
+        h4 { font-size: 1.05rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        p { margin-bottom: 1rem; font-size: 0.95rem; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        strong { color: #fff; }
+        code { background: #1a1a1a; padding: 2px 6px; border-radius: 4px; font-size: 0.85rem; font-family: 'Consolas', 'Monaco', monospace; }
+        pre { background: #1a1a1a; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; overflow-x: auto; }
+        pre code { background: none; padding: 0; font-size: 0.85rem; line-height: 1.6; }
+        ul, ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+        li { margin-bottom: 0.4rem; font-size: 0.95rem; }
+        li ul, li ol { margin-top: 0.4rem; margin-bottom: 0.4rem; }
+        blockquote {
+            border-left: 3px solid var(--accent);
+            background: #111;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        blockquote p { margin-bottom: 0.5rem; }
+        blockquote p:last-child { margin-bottom: 0; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.9rem; }
+        th { background: #1a1a1a; color: var(--accent); text-align: left; padding: 0.75rem; border: 1px solid var(--border); font-weight: 600; }
+        td { padding: 0.75rem; border: 1px solid var(--border); }
+        tr:hover { background: #1a1a1a; }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+        .badge { display: inline-block; background: var(--accent); color: #000; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-bottom: 1rem; }
+        .info-box { background: linear-gradient(135deg, #1a2e1a 0%, #162535 100%); border: 1px solid var(--accent); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+        .info-box p { margin-bottom: 0.5rem; }
+        .cta-box {
+            background: linear-gradient(135deg, #1a2e1a 0%, #162535 100%);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .cta-box h2 { border-bottom: none; margin-top: 0; padding-bottom: 0; font-size: 1.3rem; color: #fff; }
+        .cta-box p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.25rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-block; background: var(--accent); color: #000; font-weight: 600; text-decoration: none; padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.9rem; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.85; text-decoration: none; }
+        .btn-yt { background: #ff0000; color: #fff; }
+        .btn-kakao { background: #fee500; color: #000; }
+        .btn-site { background: var(--accent2); color: #000; }
+        footer { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; }
+        footer a { color: var(--accent); text-decoration: none; }
+        .callout { border-left: 3px solid var(--accent); background: #111; padding: 1rem 1.25rem; margin-bottom: 1.5rem; border-radius: 0 8px 8px 0; }
+        .callout.warning { border-left-color: #f59e0b; }
+        .callout.danger { border-left-color: #ef4444; }
+        .callout.success { border-left-color: var(--accent); }
+        .callout.info { border-left-color: var(--accent2); }
+        .callout-title { font-weight: 700; margin-bottom: 0.5rem; }
+        @media (max-width: 600px) {
+            .container { padding: 1.25rem 1rem; }
+            h1 { font-size: 1.5rem; }
+            table { font-size: 0.8rem; }
+            th, td { padding: 0.5rem; }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 가이드 목록으로 돌아가기</a>
+        <span class="badge">AI 커머스 브레인</span>
+        
+        <p>﻿---</p>
+<p>share: true</p>
+<p>share_link: https://share.note.sx/j8ygju8m#5K8ltj1GSPamrsl5boB8shfGIWFUy4tqTMK4VHzN/8c</p>
+<p>share_updated: 2026-03-10T00:14:20+09:00</p>
+<hr>
+<h1>🛒 Cafe24 자사몰 셋팅 완전 가이드</h1>
+<div class="callout info">
+<div class="callout-title">이 가이드는?</div>
+<p>Cafe24에서 처음 자사몰을 만드는 초보자를 위한 <strong>A to Z 셋팅 가이드</strong>입니다.<br>회원가입부터 주문관리까지, 실제 운영에 필요한 모든 단계를 다룹니다.</p>
+</div>
+<hr>
+<h2>📑 목차</h2>
+<ol>
+<li>1. 회원가입 및 쇼핑몰 개설</li>
+<li>2. 디자인 테마 선택 및 커스터마이징</li>
+<li>3. 상품 등록</li>
+<li>4. 결제 수단 설정 (PG사 연동)</li>
+<li>5. 배송 설정</li>
+<li>6. 도메인 연결</li>
+<li>7. SEO 및 마케팅 기본 설정</li>
+<li>8. 주문관리 및 CS 운영</li>
+<li>9. AI 활용 팁</li>
+<li>10. 월 비용 정리</li>
+</ol>
+<hr>
+<h2>1. 회원가입 및 쇼핑몰 개설</h2>
+<h3>1-1. Cafe24 회원가입</h3>
+<ol>
+<li><a href="https://www.cafe24.com" target="_blank">cafe24.com</a> 접속</li>
+<li>우측 상단 <strong>"회원가입"</strong> 클릭</li>
+<li><strong>사업자 유형 선택</strong></li>
+<li>개인 사업자 (사업자등록증 있는 경우)</li>
+<li>개인 (사업자등록증 없이 시작 — 나중에 전환 가능)</li>
+<li>본인 인증 (휴대폰 또는 아이핀)</li>
+<li>기본 정보 입력 (이름, 이메일, 비밀번호)</li>
+</ol>
+<div class="callout info">
+<div class="callout-title">사업자등록증 팁</div>
+<p>처음에는 개인으로 시작해도 됩니다. 단, PG사 연동 및 정식 결제를 받으려면 <strong>사업자등록증이 필수</strong>이므로, 본격 판매 전에 세무서에서 발급받으세요.<br>- 온라인: <a href="https://hometax.go.kr" target="_blank">홈택스</a> → 사업자등록 신청<br>- 업태: 소매업 / 종목: 전자상거래</p>
+</div>
+<h3>1-2. 쇼핑몰 개설</h3>
+<ol>
+<li>로그인 후 <strong>"쇼핑몰 만들기"</strong> 클릭</li>
+<li><strong>쇼핑몰 아이디</strong> 설정 (영문, 이후 기본 도메인이 됨: <code>아이디.cafe24.com</code>)</li>
+<li><strong>쇼핑몰 이름</strong> 입력 (브랜드명)</li>
+<li><strong>판매 상품 카테고리</strong> 선택 (패션/뷰티/식품 등)</li>
+<li><strong>요금제 선택</strong></li>
+</ol>
+<table>
+<tr>
+<th>요금제</th>
+<th>월 비용</th>
+<th>상품 수</th>
+<th>특징</th>
+</tr>
+<tr>
+<td>무료(Starter)</td>
+<td>0원</td>
+<td>100개</td>
+<td>기본 기능, 시작용</td>
+</tr>
+<tr>
+<td>Standard</td>
+<td>약 22,000원</td>
+<td>5,000개</td>
+<td>대부분의 기능 포함</td>
+</tr>
+<tr>
+<td>Professional</td>
+<td>약 33,000원</td>
+<td>50,000개</td>
+<td>고급 기능 + API</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>별도 문의</td>
+<td>무제한</td>
+<td>대규모 쇼핑몰</td>
+</tr>
+</table>
+<div class="callout info">
+<div class="callout-title">추천</div>
+<p>처음 시작이라면 <strong>무료 요금제</strong>로 개설 후, 상품이 늘어나면 업그레이드하세요.</p>
+</div>
+<ol>
+<li>개설 완료 → <strong>관리자 페이지(어드민)</strong> 자동 접속</li>
+</ol>
+<h3>1-3. 관리자 페이지 둘러보기</h3>
+<ul>
+<li><strong>접속 URL:</strong> <code>아이디.cafe24.com/disp/admin</code></li>
+<li>주요 메뉴 구조:</li>
+<li>🏠 <strong>대시보드</strong> — 매출/주문 현황 한눈에</li>
+<li>🎨 <strong>디자인</strong> — 테마, 레이아웃 편집</li>
+<li>📦 <strong>상품</strong> — 상품 등록/관리</li>
+<li>💳 <strong>결제</strong> — PG사, 결제수단</li>
+<li>🚚 <strong>배송</strong> — 배송 정책, 택배사</li>
+<li>📊 <strong>마케팅</strong> — SEO, 쿠폰, 프로모션</li>
+<li>📋 <strong>주문</strong> — 주문 처리, CS</li>
+</ul>
+<hr>
+<h2>2. 디자인 테마 선택 및 커스터마이징</h2>
+<h3>2-1. 테마 선택</h3>
+<ol>
+<li>관리자 → <strong>디자인 → 디자인 보관함</strong></li>
+<li><strong>"테마 스토어"</strong> 에서 원하는 테마 검색</li>
+<li>테마 유형:</li>
+<li><strong>무료 테마</strong>: 기본 디자인, 커스터마이징 가능</li>
+<li><strong>유료 테마</strong>: 3만~30만원, 전문적인 디자인</li>
+<li>업종에 맞는 테마 선택 후 <strong>"적용하기"</strong></li>
+</ol>
+<div class="callout info">
+<div class="callout-title">테마 선택 기준</div>
+<p>- <strong>반응형(모바일 대응)</strong> 필수 — 쇼핑몰 트래픽의 70% 이상이 모바일<br>- 판매 상품과 어울리는 레이아웃 (그리드형 vs 리스트형)<br>- 후기/리뷰 영역이 잘 보이는 테마가 전환율에 유리</p>
+</div>
+<h3>2-2. 기본 커스터마이징</h3>
+<ol>
+<li><strong>디자인 → 디자인 편집</strong> 접속 (스마트 디자인 에디터)</li>
+<li>수정 가능한 영역:</li>
+<li><strong>헤더</strong>: 로고, 메뉴, 검색바</li>
+<li><strong>메인 페이지</strong>: 배너, 추천 상품, 카테고리</li>
+<li><strong>상품 목록/상세</strong>: 레이아웃, 옵션 표시</li>
+<li><strong>푸터</strong>: 회사 정보, 고객센터, SNS 링크</li>
+</ol>
+<h3>2-3. 로고 & 파비콘 등록</h3>
+<ol>
+<li><strong>디자인 → 기본 설정</strong></li>
+<li>로고 이미지 업로드 (권장: PNG, 투명 배경, 가로 200~400px)</li>
+<li>파비콘 업로드 (16x16 또는 32x32px, .ico 또는 .png)</li>
+</ol>
+<h3>2-4. 필수 페이지 설정</h3>
+<p>관리자 → <strong>쇼핑몰 설정 → 기본 정보</strong>에서 아래 내용 입력:</p>
+<ul>
+<li><strong>회사명</strong> (상호)</li>
+<li><strong>대표자명</strong></li>
+<li><strong>사업자등록번호</strong></li>
+<li><strong>통신판매업 신고번호</strong> (구청에서 신고 후 발급)</li>
+<li><strong>고객센터 연락처</strong> (전화, 이메일)</li>
+<li><strong>영업시간</strong></li>
+<li><strong>반품/교환 주소</strong></li>
+</ul>
+<div class="callout warning">
+<div class="callout-title">법적 필수사항</div>
+<p>통신판매업 신고 없이 영업하면 과태료가 부과됩니다.<br>- 신고처: 관할 구청 또는 <a href="https://gov.kr" target="_blank">정부24</a><br>- 필요 서류: 사업자등록증, 대표 신분증<br>- 처리 기간: 약 3~5일</p>
+</div>
+<hr>
+<h2>3. 상품 등록</h2>
+<h3>3-1. 카테고리 설정</h3>
+<ol>
+<li>관리자 → <strong>상품 → 카테고리 관리</strong></li>
+<li><strong>대분류</strong> 생성 (예: 의류, 악세서리, 홈리빙)</li>
+<li><strong>중분류/소분류</strong> 추가 (예: 의류 → 상의 → 반팔 티셔츠)</li>
+<li>카테고리별 표시 순서 설정</li>
+</ol>
+<div class="callout info">
+<div class="callout-title">카테고리 설계 팁</div>
+<p>- 3단계 이내로 구성 (대 → 중 → 소)<br>- 고객 관점에서 직관적으로 (내부 분류 기준 ❌, 고객 탐색 기준 ✅)<br>- 상품이 10개 미만이면 1~2단계로 충분</p>
+</div>
+<h3>3-2. 상품 등록 (개별)</h3>
+<ol>
+<li><strong>상품 → 상품 등록</strong> 클릭</li>
+<li>입력 항목:</li>
+</ol>
+<h4>기본 정보</h4>
+<table>
+<tr>
+<th>항목</th>
+<th>설명</th>
+<th>팁</th>
+</tr>
+<tr>
+<td>상품명</td>
+<td>검색에 잘 걸리는 이름</td>
+<td>브랜드명 + 상품 특성 + 키워드</td>
+</tr>
+<tr>
+<td>상품코드</td>
+<td>내부 관리용 SKU</td>
+<td>체계적으로 (예: TS-001)</td>
+</tr>
+<tr>
+<td>카테고리</td>
+<td>분류 선택</td>
+<td>복수 카테고리 가능</td>
+</tr>
+<tr>
+<td>판매가</td>
+<td>고객에게 보이는 가격</td>
+<td>—</td>
+</tr>
+<tr>
+<td>공급가</td>
+<td>원가 (관리용)</td>
+<td>비공개</td>
+</tr>
+<tr>
+<td>재고</td>
+<td>재고 수량</td>
+<td>0이면 품절 표시</td>
+</tr>
+</table>
+<h4>상품 이미지</h4>
+<ul>
+<li><strong>대표 이미지</strong>: 1장 필수 (권장 1000x1000px 이상, 정사각형)</li>
+<li><strong>추가 이미지</strong>: 3~8장 권장 (다양한 각도, 착용샷, 디테일)</li>
+<li><strong>이미지 형식</strong>: JPG 또는 PNG, 파일당 10MB 이하</li>
+</ul>
+<div class="callout info">
+<div class="callout-title">상품 사진 촬영 팁</div>
+<p>- 자연광 또는 소프트박스 조명 사용<br>- 배경은 흰색 또는 단색이 깔끔<br>- 스마트폰으로도 충분 — 삼각대 + 자연광이 핵심<br>- 무료 보정 도구: <a href="https://canva.com" target="_blank">Canva</a>, <a href="https://remove.bg" target="_blank">Remove.bg</a> (배경 제거)</p>
+</div>
+<h4>상품 설명 (상세페이지)</h4>
+<ul>
+<li><strong>간략 설명</strong>: 검색 결과에 표시되는 1~2줄 요약</li>
+<li><strong>상세 설명</strong>: HTML 에디터로 작성하는 상세페이지</li>
+<li>상품 특징, 소재, 사이즈, 사용법</li>
+<li>고화질 이미지 + 텍스트 조합</li>
+<li>모바일 가독성 고려 (좌우 여백, 글자 크기)</li>
+</ul>
+<h4>옵션/변형</h4>
+<ul>
+<li><strong>옵션 설정</strong>: 색상, 사이즈 등 (관리자 → 상품 옵션)</li>
+<li>옵션별 추가 금액 설정 가능</li>
+<li>옵션별 재고 관리 가능</li>
+</ul>
+<h3>3-3. 대량 등록</h3>
+<p>상품이 많을 경우:</p>
+<ol>
+<li><strong>상품 → 상품 일괄 등록</strong></li>
+<li>엑셀 양식 다운로드 → 내용 입력 → 업로드</li>
+<li>이미지는 FTP로 별도 업로드 후 경로 매핑</li>
+</ol>
+<hr>
+<h2>4. 결제 수단 설정 (PG사 연동)</h2>
+<h3>4-1. PG사란?</h3>
+<p><strong>Payment Gateway</strong> — 온라인 결제를 중개하는 서비스입니다. 카드결제, 계좌이체, 간편결제 등을 처리합니다.</p>
+<h3>4-2. 주요 PG사 비교</h3>
+<table>
+<tr>
+<th>PG사</th>
+<th>수수료(카드)</th>
+<th>특징</th>
+<th>추천 대상</th>
+</tr>
+<tr>
+<td><strong>토스페이먼츠</strong></td>
+<td>약 3.3~3.5%</td>
+<td>연동 쉬움, 토스 간편결제</td>
+<td>초보 사업자</td>
+</tr>
+<tr>
+<td><strong>KG이니시스</strong></td>
+<td>약 3.3~3.5%</td>
+<td>가장 많이 사용, 안정적</td>
+<td>범용</td>
+</tr>
+<tr>
+<td><strong>NHN KCP</strong></td>
+<td>약 3.3~3.5%</td>
+<td>안정적, 다양한 결제수단</td>
+<td>범용</td>
+</tr>
+<tr>
+<td><strong>나이스페이</strong></td>
+<td>약 3.3~3.5%</td>
+<td>네이버페이 연동 편리</td>
+<td>네이버 연계 시</td>
+</tr>
+</table>
+<div class="callout info">
+<div class="callout-title">수수료 참고</div>
+<p>수수료율은 매출 규모, 업종, 계약 조건에 따라 다릅니다. 초기에는 대부분 3.3~3.5% 수준이며, 매출 증가 시 협상 가능합니다.</p>
+</div>
+<h3>4-3. PG사 심사 전 필수 셋팅 (승인 조건)</h3>
+<div class="callout warning">
+<div class="callout-title">PG사 심사 탈락 주의!</div>
+<p>PG사는 가맹점 심사 시 <strong>쇼핑몰이 실제로 운영 가능한 상태인지</strong> 확인합니다.<br>아래 항목이 미비하면 심사가 <strong>반려</strong>되거나 <strong>지연</strong>됩니다.</p>
+</div>
+<h4>✅ 서류 준비 (심사 신청 전 필수)</h4>
+<table>
+<tr>
+<th>서류</th>
+<th>발급처</th>
+<th>소요 시간</th>
+<th>비고</th>
+</tr>
+<tr>
+<td>사업자등록증</td>
+<td><a href="https://hometax.go.kr" target="_blank">홈택스</a></td>
+<td>즉시~1일</td>
+<td>간이/일반 모두 가능</td>
+</tr>
+<tr>
+<td>통신판매업 신고증</td>
+<td><a href="https://gov.kr" target="_blank">정부24</a></td>
+<td>3~5일</td>
+<td><strong>사업자등록 후 신청</strong></td>
+</tr>
+<tr>
+<td>대표자 신분증</td>
+<td>-</td>
+<td>-</td>
+<td>주민등록증 또는 운전면허증</td>
+</tr>
+<tr>
+<td>정산 통장 사본</td>
+<td>거래 은행</td>
+<td>즉시</td>
+<td>사업자 명의 통장</td>
+</tr>
+</table>
+<div class="callout info">
+<div class="callout-title">통신판매업 신고 순서</div>
+<p>1. 홈택스에서 <strong>사업자등록</strong> 먼저 완료<br>2. 정부24에서 <strong>통신판매업 신고</strong> (사업자번호 필요)<br>3. 신고증 발급까지 3~5 영업일 소요<br>4. 신고증 없이 PG 심사 신청하면 <strong>100% 반려</strong></p>
+</div>
+<h4>✅ 쇼핑몰 셋팅 (심사 통과 필수 조건)</h4>
+<p>PG사 심사관이 쇼핑몰에 <strong>직접 접속해서 확인</strong>합니다. 아래 항목이 없으면 반려됩니다:</p>
+<p><strong>1. 상품 등록 (최소 1개 이상)</strong></p>
+<ul>
+<li>상품명, 가격, 상품 이미지, 상세 설명이 모두 있어야 함</li>
+<li>"테스트 상품", "임시" 같은 이름 ❌ → 실제 판매할 상품명으로</li>
+</ul>
+<p><strong>2. 사업자 정보 표시 (법적 필수)</strong></p>
+<ul>
+<li>Cafe24 관리자 → <strong>쇼핑몰 설정 → 기본 정보</strong></li>
+<li>상호명 (사업자등록증과 동일)</li>
+<li>대표자명</li>
+<li>사업자등록번호</li>
+<li>통신판매업 신고번호</li>
+<li>사업장 주소</li>
+<li>대표 전화번호</li>
+<li>이메일</li>
+</ul>
+<div class="callout danger">
+<div class="callout-title">사업자 정보 미표시 = 심사 즉시 반려</div>
+<p>전자상거래법상 <strong>사업자 정보 미표시는 위법</strong>입니다.<br>PG사가 가장 먼저 확인하는 항목이므로 반드시 입력하세요.</p>
+</div>
+<p><strong>3. 이용약관 및 개인정보처리방침 등록</strong></p>
+<ul>
+<li>Cafe24 관리자 → <strong>쇼핑몰 설정 → 약관 관리</strong></li>
+<li>이용약관</li>
+<li>개인정보 수집·이용 동의</li>
+<li>개인정보처리방침</li>
+<li>Cafe24에서 <strong>기본 템플릿 제공</strong> → 상호명/연락처만 수정하면 OK</li>
+</ul>
+<p><strong>4. 배송/교환/반품 정책 명시</strong></p>
+<ul>
+<li>상품 상세페이지 하단 또는 별도 페이지에:</li>
+<li>배송비 안내 (무료/유료 기준)</li>
+<li>배송 소요일</li>
+<li>교환/반품 절차 및 비용</li>
+<li>환불 정책</li>
+</ul>
+<p><strong>5. 도메인 연결 (권장)</strong></p>
+<ul>
+<li>기본 도메인(<code>shop이름.cafe24.com</code>)도 심사 가능하지만</li>
+<li><strong>독립 도메인 연결 시 승인율 ↑</strong> (신뢰도 상승)</li>
+</ul>
+<h4>✅ PG사 심사 체크리스트</h4>
+<pre><code>□ 사업자등록증 발급 완료
+□ 통신판매업 신고증 발급 완료
+□ 쇼핑몰 상품 최소 1개 등록 (실제 상품명 + 이미지 + 가격)
+□ 사업자 정보 모두 입력 (상호/대표자/사업자번호/통판번호/주소/전화)
+□ 이용약관 + 개인정보처리방침 등록
+□ 배송/교환/반품 정책 명시
+□ 정산 통장 사본 준비
+□ 대표자 신분증 사본 준비
+</code></pre>
+<div class="callout success">
+<div class="callout-title">이 체크리스트를 모두 완료한 후 PG사에 심사 신청하세요!</div>
+<p>보통 <strong>3~7 영업일</strong> 내 승인됩니다. 서류 미비 시 추가 1~2주 소요될 수 있습니다.</p>
+</div>
+<h3>4-4. PG사 연동 절차 (심사 후)</h3>
+<ol>
+<li><strong>PG사 홈페이지에서 가맹점 신청</strong></li>
+<li><a href="https://tosspayments.com" target="_blank">토스페이먼츠</a> → 가맹점 등록</li>
+<li><a href="https://www.inicis.com" target="_blank">KG이니시스</a> → 온라인 가맹점 신청</li>
+<li><strong>서류 제출</strong> (위 체크리스트 서류)</li>
+<li><strong>심사</strong> (보통 3~7 영업일)</li>
+<li><strong>승인 후 키(Key) 발급</strong> (상점 ID, API Key 등)</li>
+<li><strong>Cafe24 관리자 → 결제 → PG 설정</strong></li>
+<li>사용할 PG사 선택</li>
+<li>발급받은 키 입력</li>
+<li>결제수단 활성화 (신용카드, 계좌이체, 가상계좌, 휴대폰 결제)</li>
+<li><strong>테스트 결제</strong> 진행 후 정상 작동 확인</li>
+</ol>
+<h3>4-5. 간편결제 추가 설정</h3>
+<p>아래 간편결제는 별도 가맹점 신청이 필요합니다:</p>
+<ul>
+<li><strong>네이버페이</strong>: <a href="https://admin.pay.naver.com" target="_blank">네이버페이 센터</a> → 가맹점 신청</li>
+<li><strong>카카오페이</strong>: PG사 통해 연동 또는 직접 신청</li>
+<li><strong>토스페이</strong>: 토스페이먼츠 연동 시 자동 포함</li>
+<li><strong>페이코</strong>: 별도 가맹점 신청</li>
+</ul>
+<div class="callout info">
+<div class="callout-title">초보자 추천 설정</div>
+<p>PG사 1개(토스페이먼츠 또는 KG이니시스) + 네이버페이만 있으면 대부분의 결제를 커버할 수 있습니다.</p>
+</div>
+<hr>
+<h2>5. 배송 설정</h2>
+<h3>5-1. 배송 정책 설정</h3>
+<p>관리자 → <strong>배송 → 배송 설정</strong></p>
+<ol>
+<li><strong>기본 배송비 설정</strong></li>
+<li>무료 배송</li>
+<li>고정 배송비 (예: 3,000원)</li>
+<li>조건부 무료 (예: 50,000원 이상 무료, 미만 시 3,000원)</li>
+<li>수량별/무게별 배송비</li>
+<li><strong>제주/도서산간 추가 배송비</strong></li>
+<li>보통 3,000~5,000원 추가</li>
+<li>설정 위치: 배송 → 지역별 배송비</li>
+<li><strong>반품/교환 배송비</strong></li>
+<li>편도 기준 (예: 2,500원)</li>
+<li>왕복 기준 표기</li>
+</ol>
+<h3>5-2. 택배사 연동</h3>
+<ol>
+<li><strong>사용할 택배사 선택</strong></li>
+</ol>
+<table>
+<tr>
+<th>택배사</th>
+<th>특징</th>
+<th>계약 방법</th>
+</tr>
+<tr>
+<td>CJ대한통운</td>
+<td>가장 많이 사용, 전국 커버</td>
+<td>1588-1255 / 영업사원</td>
+</tr>
+<tr>
+<td>한진택배</td>
+<td>안정적, 빠른 배송</td>
+<td>1588-0011</td>
+</tr>
+<tr>
+<td>로젠택배</td>
+<td>가격 경쟁력</td>
+<td>1588-9988</td>
+</tr>
+<tr>
+<td>우체국택배</td>
+<td>공공기관, 신뢰도 높음</td>
+<td>가까운 우체국</td>
+</tr>
+<tr>
+<td>롯데택배</td>
+<td>L-point 연계</td>
+<td>1588-2121</td>
+</tr>
+</table>
+<ol>
+<li><strong>택배 계약</strong></li>
+<li>택배사에 전화 → 영업 담당자 배정</li>
+<li>월 예상 물량에 따라 단가 협상 (보통 건당 2,500~3,500원)</li>
+<li>계약 후 송장 출력 프로그램 제공</li>
+<li><strong>Cafe24 택배사 연동</strong></li>
+<li>관리자 → <strong>배송 → 택배사 관리</strong></li>
+<li>사용할 택배사 선택 후 API 키 입력</li>
+<li><strong>자동 송장 등록</strong> 설정 시 운송장번호 자동 입력</li>
+</ol>
+<h3>5-3. 송장 출력</h3>
+<ul>
+<li>Cafe24 관리자에서 직접 송장 인쇄 가능</li>
+<li>또는 택배사 전용 프로그램 (예: CJ 엑셀 업로드) 사용</li>
+<li><strong>주문 → 배송 준비 → 송장번호 입력 → 배송 중</strong> 상태 변경</li>
+</ul>
+<hr>
+<h2>6. 도메인 연결</h2>
+<h3>6-1. 도메인이란?</h3>
+<p>쇼핑몰의 인터넷 주소입니다.</p>
+<ul>
+<li>기본: <code>아이디.cafe24.com</code> (무료)</li>
+<li>독자 도메인: <code>www.mybrand.co.kr</code> (유료, 연간 약 1~3만원)</li>
+</ul>
+<h3>6-2. 도메인 구입</h3>
+<table>
+<tr>
+<th>등록업체</th>
+<th>특징</th>
+<th>.co.kr 가격(연)</th>
+</tr>
+<tr>
+<td><a href="https://gabia.com" target="_blank">가비아</a></td>
+<td>국내 1위, UI 편리</td>
+<td>약 18,000원</td>
+</tr>
+<tr>
+<td><a href="https://whois.co.kr" target="_blank">후이즈</a></td>
+<td>가격 경쟁력</td>
+<td>약 13,000원</td>
+</tr>
+</table>
+<div class="callout info">
+<div class="callout-title">도메인 선택 팁</div>
+<p>- 브랜드명과 동일하게 (기억하기 쉽게)<br>- <code>.co.kr</code> 또는 <code>.com</code> 추천 (신뢰감)<br>- 짧을수록 좋음<br>- 하이픈(-) 지양</p>
+</div>
+<h3>6-3. 도메인 연결 방법</h3>
+<p><strong>방법 A: Cafe24에서 도메인 구입한 경우</strong></p>
+<ul>
+<li>자동 연결됨, 별도 설정 불필요</li>
+</ul>
+<p><strong>방법 B: 외부에서 도메인 구입한 경우</strong></p>
+<ol>
+<li>도메인 등록업체 관리자 접속</li>
+<li><strong>DNS 설정 (네임서버 변경)</strong></li>
+</ol>
+<pre><code>   1차: ns1.cafe24.com
+   2차: ns2.cafe24.com
+</code></pre>
+<ol>
+<li>Cafe24 관리자 → <strong>쇼핑몰 설정 → 도메인 관리</strong></li>
+<li><strong>"도메인 연결"</strong> → 구매한 도메인 입력</li>
+<li>적용까지 최대 24~48시간 소요 (보통 1~2시간)</li>
+</ol>
+<h3>6-4. SSL 인증서 (HTTPS)</h3>
+<ul>
+<li>Cafe24는 <strong>무료 SSL</strong> 제공 (Let's Encrypt)</li>
+<li>관리자 → <strong>보안 → SSL 설정</strong> → 활성화</li>
+<li><code>https://</code> 로 접속 가능해짐 (필수! 없으면 "안전하지 않음" 표시)</li>
+</ul>
+<hr>
+<h2>7. SEO 및 마케팅 기본 설정</h2>
+<h3>7-1. SEO 기본 설정</h3>
+<h4>메타 태그 설정</h4>
+<p>관리자 → <strong>쇼핑몰 설정 → SEO 설정</strong></p>
+<ul>
+<li><strong>타이틀 태그</strong>: <code>브랜드명 | 핵심 키워드</code> (예: "무드랩 | 감성 홈데코 소품 전문")</li>
+<li><strong>메타 설명</strong>: 쇼핑몰을 설명하는 120자 내외 문장</li>
+<li><strong>메타 키워드</strong>: 주요 검색 키워드 5~10개</li>
+</ul>
+<h4>상품별 SEO</h4>
+<p>각 상품 등록 시:</p>
+<ul>
+<li><strong>상품명</strong>: 검색 키워드 포함 (예: "린넨 오버핏 반팔 티셔츠 여름 데일리룩")</li>
+<li><strong>상품 URL</strong>: 영문 SEO 친화적 URL 설정</li>
+<li><strong>이미지 ALT 태그</strong>: 상품 이미지에 설명 텍스트 추가</li>
+</ul>
+<h4>사이트맵 제출</h4>
+<ol>
+<li>Cafe24는 자동으로 <code>sitemap.xml</code> 생성</li>
+<li><a href="https://search.google.com/search-console" target="_blank">Google Search Console</a> 등록</li>
+<li><a href="https://searchadvisor.naver.com" target="_blank">네이버 서치어드바이저</a> 등록</li>
+<li>사이트맵 URL 제출: <code>https://도메인/sitemap.xml</code></li>
+</ol>
+<h3>7-2. 마케팅 기본 설정</h3>
+<h4>네이버 쇼핑 입점</h4>
+<ol>
+<li><a href="https://adcenter.shopping.naver.com" target="_blank">네이버 커머스 센터</a> 가입</li>
+<li>Cafe24 관리자 → <strong>마케팅 → 네이버 쇼핑 연동</strong></li>
+<li>EP(상품 피드) 자동 생성 설정</li>
+<li>네이버 쇼핑에 상품 노출</li>
+</ol>
+<h4>카카오 채널 개설</h4>
+<ol>
+<li><a href="https://business.kakao.com" target="_blank">카카오비즈니스</a> → 카카오톡 채널 개설</li>
+<li>쇼핑몰에 카카오톡 상담 버튼 추가</li>
+<li>주문 알림톡 연동 가능</li>
+</ol>
+<h4>기본 프로모션 도구</h4>
+<ul>
+<li><strong>쿠폰 발행</strong>: 관리자 → 마케팅 → 쿠폰 관리</li>
+<li>신규 가입 쿠폰 (예: 10% 할인)</li>
+<li>첫 구매 쿠폰</li>
+<li>생일 쿠폰</li>
+<li><strong>적립금 설정</strong>: 구매 금액의 1~5% 적립</li>
+<li><strong>기획전/이벤트</strong>: 시즌별 프로모션 페이지 제작</li>
+</ul>
+<h4>SNS 연동</h4>
+<ul>
+<li>인스타그램 쇼핑 태그 연동</li>
+<li>카카오 스토리 연동</li>
+<li>페이스북 픽셀 설치 (광고 추적용)</li>
+</ul>
+<h3>7-3. Google Analytics / 네이버 애널리틱스</h3>
+<ol>
+<li><strong>Google Analytics 4 (GA4)</strong></li>
+<li><a href="https://analytics.google.com" target="_blank">analytics.google.com</a> → 계정/속성 생성</li>
+<li>추적 코드(G-XXXXXXX) 복사</li>
+<li>Cafe24 관리자 → <strong>쇼핑몰 설정 → 외부 서비스 연동 → Google Analytics</strong></li>
+<li>추적 코드 입력</li>
+<li><strong>네이버 애널리틱스</strong></li>
+<li><a href="https://analytics.naver.com" target="_blank">analytics.naver.com</a> → 사이트 등록</li>
+<li>스크립트 코드 추가</li>
+</ol>
+<hr>
+<h2>8. 주문관리 및 CS 운영</h2>
+<h3>8-1. 주문 처리 흐름</h3>
+<pre><code>주문 접수 → 결제 확인 → 상품 준비 → 송장 입력 → 배송 중 → 배송 완료
+</code></pre>
+<table>
+<tr>
+<th>단계</th>
+<th>관리자 메뉴</th>
+<th>할 일</th>
+</tr>
+<tr>
+<td>주문 접수</td>
+<td>주문 → 전체 주문 조회</td>
+<td>신규 주문 확인</td>
+</tr>
+<tr>
+<td>결제 확인</td>
+<td>주문 → 입금 확인</td>
+<td>무통장입금 건 확인 처리</td>
+</tr>
+<tr>
+<td>상품 준비</td>
+<td>주문 → 배송 준비</td>
+<td>포장 및 택배 접수</td>
+</tr>
+<tr>
+<td>송장 입력</td>
+<td>주문 → 송장 등록</td>
+<td>운송장번호 입력 (수동/자동)</td>
+</tr>
+<tr>
+<td>배송 중</td>
+<td>자동 처리</td>
+<td>택배 추적 연동</td>
+</tr>
+<tr>
+<td>배송 완료</td>
+<td>자동 처리</td>
+<td>구매 확정 대기</td>
+</tr>
+</table>
+<h3>8-2. CS(고객서비스) 운영</h3>
+<h4>필수 CS 채널</h4>
+<ol>
+<li><strong>게시판</strong>: 관리자 → 게시판 → 문의 게시판 설정</li>
+<li>1:1 문의 (비밀글 기능)</li>
+<li>상품 Q&A</li>
+<li>구매 후기</li>
+<li><strong>전화</strong>: 고객센터 번호 설정 (070 인터넷전화 추천 — 월 5,000원 내외)</li>
+<li><strong>카카오톡 채널</strong>: 실시간 상담</li>
+<li><strong>이메일</strong>: 공식 이메일 설정</li>
+</ol>
+<h4>CS 필수 템플릿</h4>
+<div class="callout info">
+<div class="callout-title">자주 쓰는 CS 템플릿</div>
+<p><strong>배송 문의 답변</strong><br>"안녕하세요, [브랜드명]입니다. 주문하신 상품은 [날짜] 출고 예정이며, 출고 시 배송 추적 가능한 문자를 발송해 드립니다. 감사합니다."</p><p><strong>교환/반품 안내</strong><br>"교환·반품은 수령일로부터 7일 이내 가능합니다. 1:1 문의에 주문번호와 사유를 남겨주시면 빠르게 처리해 드리겠습니다."</p>
+</div>
+<h3>8-3. 교환/반품 처리</h3>
+<ol>
+<li>고객 교환·반품 신청 접수</li>
+<li>관리자 → <strong>주문 → 반품/교환 관리</strong></li>
+<li>반품 사유 확인 (단순 변심 vs 불량)</li>
+<li>수거 택배 접수</li>
+<li>상품 회수 확인 후 처리:</li>
+<li><strong>교환</strong>: 새 상품 발송</li>
+<li><strong>반품 환불</strong>: 결제 취소 처리 (PG사 통해 자동)</li>
+</ol>
+<h3>8-4. 알림 설정</h3>
+<p>관리자 → <strong>쇼핑몰 설정 → 알림 설정</strong></p>
+<ul>
+<li>주문 접수 알림 (이메일/SMS)</li>
+<li>배송 완료 알림</li>
+<li>입금 확인 알림</li>
+<li>SMS 발송은 별도 충전 필요 (건당 약 15~20원)</li>
+</ul>
+<hr>
+<h2>9. AI 활용 팁</h2>
+<div class="callout info">
+<div class="callout-title">AI로 쇼핑몰 운영 효율을 2배로!</div>
+<p>ChatGPT, Claude 등 AI 도구를 활용하면 상품 설명 작성, 상세페이지 기획, CS 응대 등에서 시간을 크게 절약할 수 있습니다.</p>
+</div>
+<h3>9-1. 상품명 최적화</h3>
+<p><strong>프롬프트 예시 (Claude/ChatGPT):</strong></p>
+<pre><code>당신은 쇼핑몰 상품명 최적화 전문가입니다.
+
+아래 상품의 검색 최적화된 상품명을 5개 제안해주세요.
+
+상품 정보:
+- 카테고리: 여성 상의
+- 소재: 린넨 100%
+- 특징: 오버핏, 반팔, 여름용
+- 색상: 아이보리, 베이지, 네이비
+- 타겟: 20~30대 여성
+
+조건:
+- 네이버 쇼핑 검색에 최적화
+- 핵심 키워드 앞쪽 배치
+- 40자 이내
+- 자연스러운 한국어
+</code></pre>
+<p><strong>AI 출력 예시:</strong></p>
+<ol>
+<li>린넨 오버핏 반팔티 여름 데일리룩 여성 상의</li>
+<li>100% 린넨 반팔 블라우스 오버핏 여름 티셔츠</li>
+<li>여름 린넨 반팔 여성 오버핏 상의 아이보리 베이지</li>
+</ol>
+<h3>9-2. 상품 상세 설명 자동 생성</h3>
+<p><strong>프롬프트 예시:</strong></p>
+<pre><code>아래 상품의 쇼핑몰 상세 설명을 작성해주세요.
+
+상품 정보:
+- 상품명: 린넨 오버핏 반팔 티셔츠
+- 소재: 린넨 100%
+- 사이즈: FREE (가슴단면 60cm, 총장 68cm)
+- 색상: 아이보리, 베이지, 네이비
+- 가격: 39,000원
+- 특징: 시원한 린넨 소재, 여유로운 핏, 데일리하게 입기 좋은 디자인
+
+작성 조건:
+1. 감성적이면서도 구매욕을 자극하는 톤
+2. 소재/핏/사이즈 정보 명확히 포함
+3. 스타일링 제안 1~2개 포함
+4. 세탁 방법 안내 포함
+5. HTML 형식으로 출력 (Cafe24 에디터에 바로 붙여넣기 가능하도록)
+6. 모바일 가독성 고려 (짧은 문단, 충분한 줄간격)
+</code></pre>
+<h3>9-3. 상세페이지 구성 기획</h3>
+<p><strong>프롬프트 예시:</strong></p>
+<pre><code>쇼핑몰 상세페이지의 섹션 구성을 기획해주세요.
+
+상품: [상품명]
+타겟: [타겟 고객]
+
+아래 순서로 구성해주세요:
+1. 감성 카피 (메인 비주얼과 함께 사용할 한 줄 카피)
+2. 상품 핵심 포인트 3가지
+3. 상세 스펙 (소재, 사이즈, 색상)
+4. 착용/사용 이미지 설명 (어떤 사진이 필요한지)
+5. 스타일링 가이드
+6. 배송/교환/반품 안내
+7. 리뷰 유도 문구
+</code></pre>
+<h3>9-4. CS 응대 자동화</h3>
+<p><strong>프롬프트 예시:</strong></p>
+<pre><code>쇼핑몰 CS 담당자로서 아래 고객 문의에 답변해주세요.
+
+브랜드 톤: 친절하고 전문적, 존댓말 사용
+브랜드명: [브랜드명]
+
+고객 문의: &quot;[고객이 남긴 문의 내용]&quot;
+
+조건:
+- 공감 표현으로 시작
+- 명확한 해결 방안 제시
+- 추가 도움 필요 시 안내
+- 200자 이내
+</code></pre>
+<h3>9-5. 마케팅 콘텐츠 생성</h3>
+<table>
+<tr>
+<th>용도</th>
+<th>AI 활용 방법</th>
+</tr>
+<tr>
+<td>인스타그램 캡션</td>
+<td>상품 사진 설명 + 해시태그 자동 생성</td>
+</tr>
+<tr>
+<td>블로그 후기</td>
+<td>상품 리뷰 초안 작성</td>
+</tr>
+<tr>
+<td>이메일 뉴스레터</td>
+<td>프로모션 안내 문구 작성</td>
+</tr>
+<tr>
+<td>광고 카피</td>
+<td>네이버/인스타 광고 문구 A/B 테스트용</td>
+</tr>
+<tr>
+<td>FAQ 작성</td>
+<td>자주 묻는 질문 & 답변 자동 생성</td>
+</tr>
+<tr>
+<td>쿠폰 이벤트 기획</td>
+<td>시즌별 이벤트 아이디어 + 문구</td>
+</tr>
+</table>
+<h3>9-6. AI 이미지 도구 활용</h3>
+<ul>
+<li><strong>배경 제거</strong>: <a href="https://remove.bg" target="_blank">Remove.bg</a> — 상품 사진 배경 자동 제거</li>
+<li><strong>이미지 보정</strong>: Canva AI — 자동 보정, 리사이즈</li>
+<li><strong>배너 제작</strong>: Canva / <a href="https://miricanvas.com" target="_blank">Miricanvas</a> — 프로모션 배너</li>
+<li><strong>상세페이지 디자인</strong>: 미리캔버스 템플릿 활용</li>
+</ul>
+<div class="callout info">
+<div class="callout-title">AI 활용 시 주의사항</div>
+<p>- AI가 생성한 텍스트는 반드시 <strong>팩트 체크</strong> 후 사용<br>- 상품 스펙(사이즈, 소재 등)은 직접 확인<br>- AI 이미지는 보조 용도로만 (실제 상품 사진이 전환율에 훨씬 유리)<br>- 동일한 AI 프롬프트를 <strong>템플릿화</strong>하여 반복 사용</p>
+</div>
+<hr>
+<h2>10. 월 비용 정리</h2>
+<h3>10-1. 필수 비용</h3>
+<table>
+<tr>
+<th>항목</th>
+<th>비용</th>
+<th>비고</th>
+</tr>
+<tr>
+<td>Cafe24 호스팅</td>
+<td>0원~33,000원/월</td>
+<td>무료 플랜으로 시작 가능</td>
+</tr>
+<tr>
+<td>도메인</td>
+<td>약 1,000~2,500원/월</td>
+<td>연간 12,000~30,000원</td>
+</tr>
+<tr>
+<td>SSL 인증서</td>
+<td>0원</td>
+<td>Cafe24 무료 제공</td>
+</tr>
+<tr>
+<td>PG 수수료</td>
+<td>매출의 3.3~3.5%</td>
+<td>거래 발생 시만</td>
+</tr>
+<tr>
+<td><strong>월 고정비 합계</strong></td>
+<td><strong>약 1,000~35,000원</strong></td>
+<td>—</td>
+</tr>
+</table>
+<h3>10-2. 선택 비용</h3>
+<table>
+<tr>
+<th>항목</th>
+<th>비용</th>
+<th>필요한 경우</th>
+</tr>
+<tr>
+<td>유료 테마</td>
+<td>3~30만원 (1회)</td>
+<td>전문적 디자인 원할 때</td>
+</tr>
+<tr>
+<td>SMS 발송</td>
+<td>건당 15~20원</td>
+<td>주문/배송 알림</td>
+</tr>
+<tr>
+<td>카카오 알림톡</td>
+<td>건당 7~10원</td>
+<td>SMS 대비 저렴한 알림</td>
+</tr>
+<tr>
+<td>070 전화</td>
+<td>약 5,000원/월</td>
+<td>고객센터 운영</td>
+</tr>
+<tr>
+<td>네이버 쇼핑 광고</td>
+<td>자율 (CPC)</td>
+<td>클릭당 과금</td>
+</tr>
+<tr>
+<td>인스타그램 광고</td>
+<td>자율</td>
+<td>일 1,000원부터</td>
+</tr>
+<tr>
+<td>ChatGPT Plus</td>
+<td>$20/월</td>
+<td>AI 도구 활용 시</td>
+</tr>
+<tr>
+<td>Claude Pro</td>
+<td>$20/월</td>
+<td>AI 도구 활용 시</td>
+</tr>
+</table>
+<h3>10-3. 현실적인 초기 비용 시뮬레이션</h3>
+<div class="callout info">
+<div class="callout-title">월 매출 100만원 기준 예상 비용</div>
+<p>| 항목 | 금액 |<br>|------|------|<br>| Cafe24 무료 플랜 | 0원 |<br>| 도메인 (월 환산) | 1,500원 |<br>| PG 수수료 (3.3%) | 33,000원 |<br>| 택배비 (50건 × 3,000원) | 150,000원 |<br>| SMS/알림톡 (50건) | 500원 |<br>| <strong>합계</strong> | <strong>약 185,000원</strong> |</p><p>순수 플랫폼 비용은 매우 저렴하며, 실질 비용은 <strong>택배비와 PG 수수료</strong>가 대부분입니다.</p>
+</div>
+<hr>
+<h2>📋 셋팅 체크리스트</h2>
+<p>완료 여부를 체크하며 진행하세요:</p>
+<ul style="list-style:none;padding-left:0.5rem;">
+<li>☐ Cafe24 회원가입 완료</li>
+<li>☐ 쇼핑몰 개설 (이름, 요금제 선택)</li>
+<li>☐ 사업자등록증 발급</li>
+<li>☐ 통신판매업 신고</li>
+<li>☐ 디자인 테마 적용</li>
+<li>☐ 로고 & 파비콘 등록</li>
+<li>☐ 회사 기본 정보 입력 (상호, 사업자번호, 연락처)</li>
+<li>☐ 카테고리 설정</li>
+<li>☐ 상품 최소 1개 등록</li>
+<li>☐ PG사 가맹점 신청 및 연동</li>
+<li>☐ 결제 테스트 완료</li>
+<li>☐ 배송 정책 설정</li>
+<li>☐ 택배사 계약 및 연동</li>
+<li>☐ 도메인 구입 및 연결</li>
+<li>☐ SSL(HTTPS) 활성화</li>
+<li>☐ SEO 기본 설정 (메타태그, 사이트맵)</li>
+<li>☐ Google Search Console 등록</li>
+<li>☐ 네이버 서치어드바이저 등록</li>
+<li>☐ 네이버 쇼핑 입점 신청</li>
+<li>☐ 카카오톡 채널 개설</li>
+<li>☐ CS 채널 설정 (게시판, 전화, 카카오)</li>
+<li>☐ 교환/반품 정책 수립</li>
+<li>☐ Google Analytics 연동</li>
+<li>☐ 테스트 주문 → 전체 흐름 확인</li>
+</ul>
+<hr>
+<h2>🔗 유용한 링크 모음</h2>
+<table>
+<tr>
+<th>서비스</th>
+<th>URL</th>
+</tr>
+<tr>
+<td>Cafe24</td>
+<td>https://www.cafe24.com</td>
+</tr>
+<tr>
+<td>Cafe24 디자인센터</td>
+<td>https://design.cafe24.com</td>
+</tr>
+<tr>
+<td>홈택스 (사업자등록)</td>
+<td>https://hometax.go.kr</td>
+</tr>
+<tr>
+<td>정부24 (통신판매업 신고)</td>
+<td>https://gov.kr</td>
+</tr>
+<tr>
+<td>토스페이먼츠</td>
+<td>https://tosspayments.com</td>
+</tr>
+<tr>
+<td>KG이니시스</td>
+<td>https://www.inicis.com</td>
+</tr>
+<tr>
+<td>네이버 커머스센터</td>
+<td>https://adcenter.shopping.naver.com</td>
+</tr>
+<tr>
+<td>네이버 서치어드바이저</td>
+<td>https://searchadvisor.naver.com</td>
+</tr>
+<tr>
+<td>Google Search Console</td>
+<td>https://search.google.com/search-console</td>
+</tr>
+<tr>
+<td>Google Analytics</td>
+<td>https://analytics.google.com</td>
+</tr>
+<tr>
+<td>카카오비즈니스</td>
+<td>https://business.kakao.com</td>
+</tr>
+<tr>
+<td>미리캔버스</td>
+<td>https://miricanvas.com</td>
+</tr>
+<tr>
+<td>Remove.bg</td>
+<td>https://remove.bg</td>
+</tr>
+</table>
+<hr>
+<div class="callout success">
+<div class="callout-title">축하합니다! 🎉</div>
+<p>이 가이드를 따라 모든 체크리스트를 완료했다면, 당신의 자사몰은 <strong>운영 준비 완료</strong> 상태입니다.</p><p><strong>다음 단계 추천:</strong><br>1. 지인에게 테스트 주문 요청 → 전체 프로세스 검증<br>2. 상품 5~10개 등록 후 → 네이버 쇼핑 입점<br>3. 인스타그램 계정 개설 → 상품 콘텐츠 업로드<br>4. 첫 프로모션 기획 (오픈 기념 할인 or 무료배송)</p>
+</div>
+<hr>
+<p><em>마지막 업데이트: 2026년 3월</em></p>
+<p><em>이 가이드는 Cafe24 정책 변경에 따라 일부 내용이 달라질 수 있습니다.</em></p>
+
+        <div class="cta-box">
+            <h2>🚀 더 많은 AI 활용법이 궁금하다면?</h2>
+            <p>AI로 이커머스 자동화하고, 생산성 10배 올리는 실전 노하우를 공유합니다.</p>
+            <div class="cta-buttons">
+                <a href="https://www.youtube.com/@aiebrain" target="_blank" class="btn btn-yt">▶ 유튜브 구독하기</a>
+                <a href="https://pf.kakao.com/_DIiBn" target="_blank" class="btn btn-kakao">💬 카카오 채널</a>
+                <a href="https://aiebrain.lovable.app/" target="_blank" class="btn btn-site">🌐 포트폴리오 보기</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 <a href="https://www.youtube.com/@aiebrain" target="_blank">AI 커머스 브레인</a></p>
+        </footer>
+    </div>
+</body>
+</html>
