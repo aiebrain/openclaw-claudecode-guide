@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 음악·음성 도구 실무 활용 가이드 — SUNO & 일레븐랩스</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #f59e0b;
+      --green: #10b981;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --bg: #0f0f1a;
+      --card: #1a1a2e;
+      --card2: #16213e;
+      --border: #2a2a4a;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      line-height: 1.7;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #1a0533 0%, #0d1b4b 50%, #0f0f1a 100%);
+      padding: 80px 20px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,.25) 0%, transparent 70%);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(99,102,241,.2);
+      border: 1px solid rgba(99,102,241,.4);
+      color: #a5b4fc;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(90deg, #fff 0%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: .95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--primary); color: #a5b4fc; }
+    .btn-youtube {
+      background: #ff0000;
+      color: #fff;
+    }
+    .btn-youtube:hover { background: #cc0000; transform: translateY(-2px); }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 60px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    /* ── SECTION HEADER ── */
+    .section-header { margin-bottom: 36px; }
+    .section-tag {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: rgba(99,102,241,.12);
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      color: var(--white);
+    }
+    .section-sub { color: var(--muted); margin-top: 8px; }
+
+    /* ── BEFORE/AFTER TABLE ── */
+    .compare-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    .compare-table th {
+      padding: 12px 16px;
+      background: rgba(99,102,241,.15);
+      color: #a5b4fc;
+      font-size: .82rem;
+      text-align: left;
+    }
+    .compare-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: .92rem;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table .before { color: #f87171; }
+    .compare-table .after { color: #34d399; font-weight: 600; }
+    .compare-table .situation { color: var(--muted); }
+
+    /* ── STEP CARDS ── */
+    .steps { display: flex; flex-direction: column; gap: 16px; }
+    .step {
+      display: flex;
+      gap: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800;
+      font-size: .95rem;
+    }
+    .step-content h4 { font-weight: 700; margin-bottom: 4px; color: var(--white); }
+    .step-content p { font-size: .9rem; color: var(--muted); }
+
+    /* ── PROMPT BLOCKS ── */
+    .prompt-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      background: rgba(99,102,241,.08);
+      border-bottom: 1px solid var(--border);
+    }
+    .prompt-label {
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #a5b4fc;
+    }
+    .copy-btn {
+      background: rgba(99,102,241,.2);
+      border: 1px solid rgba(99,102,241,.3);
+      color: #a5b4fc;
+      font-size: .78rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .copy-btn:hover { background: rgba(99,102,241,.4); }
+    .copy-btn.copied { background: rgba(16,185,129,.2); border-color: rgba(16,185,129,.4); color: #34d399; }
+    .prompt-body {
+      padding: 16px 18px;
+      font-family: 'Courier New', monospace;
+      font-size: .9rem;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+    .prompt-situation {
+      padding: 8px 18px 14px;
+      font-size: .82rem;
+      color: var(--muted);
+    }
+
+    /* ── KEYWORD GRID ── */
+    .kw-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .kw-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .kw-card h4 {
+      font-size: .82rem;
+      font-weight: 700;
+      color: #a5b4fc;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    .kw-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .kw-tag {
+      background: rgba(99,102,241,.12);
+      border: 1px solid rgba(99,102,241,.2);
+      color: #c7d2fe;
+      font-size: .82rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* ── PRICING CARDS ── */
+    .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .plan-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+    }
+    .plan-card.recommended { border-color: var(--primary); }
+    .plan-badge {
+      position: absolute;
+      top: -11px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 99px;
+    }
+    .plan-name { font-weight: 800; font-size: 1rem; color: var(--white); margin-bottom: 4px; }
+    .plan-price { font-size: 1.4rem; font-weight: 800; color: var(--secondary); margin-bottom: 8px; }
+    .plan-detail { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── TIPS BOX ── */
+    .tip-box {
+      background: rgba(245,158,11,.07);
+      border: 1px solid rgba(245,158,11,.25);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-top: 16px;
+    }
+    .tip-box .tip-title {
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 8px;
+      font-size: .9rem;
+    }
+    .tip-box p, .tip-box li { font-size: .9rem; color: #fde68a; }
+    .tip-box ul { padding-left: 18px; }
+    .tip-box li { margin-bottom: 4px; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: rgba(59,130,246,.07);
+      border: 1px solid rgba(59,130,246,.25);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-top: 16px;
+    }
+    .info-box p, .info-box li { font-size: .9rem; color: #bfdbfe; }
+    .info-box ul { padding-left: 18px; }
+    .info-box li { margin-bottom: 4px; }
+
+    /* ── FLOW STEPS (결합 활용) ── */
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      align-items: stretch;
+      margin-top: 20px;
+    }
+    .flow-item {
+      flex: 1;
+      min-width: 160px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+      position: relative;
+    }
+    .flow-item:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 1.2rem;
+      z-index: 1;
+    }
+    .flow-item + .flow-item { margin-left: 12px; }
+    .flow-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
+      background: var(--primary);
+      border-radius: 50%;
+      font-weight: 800;
+      font-size: .85rem;
+      margin-bottom: 10px;
+    }
+    .flow-item h4 { font-size: .9rem; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .flow-item p { font-size: .78rem; color: var(--muted); }
+
+    /* ── SETTINGS TABLE ── */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .settings-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .settings-card .icon { font-size: 2rem; margin-bottom: 8px; }
+    .settings-card h4 { font-size: .9rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .settings-card p { font-size: .82rem; color: var(--muted); }
+    .settings-card .val { font-size: 1.3rem; font-weight: 800; color: var(--secondary); margin: 6px 0; }
+
+    /* ── APP INSTALL LINKS ── */
+    .install-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .install-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .install-card .app-icon { font-size: 2.4rem; }
+    .install-card h3 { font-size: 1.1rem; font-weight: 800; color: var(--white); }
+    .install-card p { font-size: .88rem; color: var(--muted); flex: 1; }
+    .install-links { display: flex; flex-direction: column; gap: 8px; }
+    .install-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(99,102,241,.1);
+      border: 1px solid rgba(99,102,241,.2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      text-decoration: none;
+      color: #c7d2fe;
+      font-size: .88rem;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .install-link:hover { background: rgba(99,102,241,.2); }
+    .install-link .badge {
+      margin-left: auto;
+      font-size: .7rem;
+      background: rgba(16,185,129,.15);
+      color: #34d399;
+      border: 1px solid rgba(16,185,129,.25);
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+
+    /* ── YOUTUBE CTA ── */
+    .yt-cta {
+      background: linear-gradient(135deg, #1a0a0a 0%, #2d0000 100%);
+      border: 1px solid rgba(255,0,0,.25);
+      border-radius: 16px;
+      padding: 36px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .yt-cta h3 { font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+    .yt-cta p { color: var(--muted); margin-bottom: 20px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 32px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    footer a { color: #a5b4fc; text-decoration: none; }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+    @media (max-width: 640px) {
+      .flow { flex-direction: column; }
+      .flow-item:not(:last-child)::after { content: '↓'; right: 50%; top: auto; bottom: -18px; transform: translateX(50%); }
+      .flow-item + .flow-item { margin-left: 0; margin-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-badge">🎓 주택관리사 AI 실무 교육 3회차</div>
+    <h1>AI 음악 · 음성 도구<br>실무 활용 완전 가이드</h1>
+    <p>SUNO로 배경음악 만들고, 일레븐랩스로 안내방송 제작하기<br>
+    설치부터 실전 프롬프트까지 — 바로 따라할 수 있어요!</p>
+    <div class="hero-links">
+      <a href="https://suno.com" target="_blank" class="btn btn-primary">🎵 SUNO 바로가기</a>
+      <a href="https://elevenlabs.io" target="_blank" class="btn btn-outline">🎙️ 일레븐랩스 바로가기</a>
+      <a href="https://www.youtube.com/@aiebrain" target="_blank" class="btn btn-youtube">▶ 이브레인 유튜브</a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── BEFORE / AFTER ─── -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Before vs After</div>
+      <h2 class="section-title">AI 도구, 얼마나 달라질까요?</h2>
+      <p class="section-sub">실제 주택관리 업무에서 AI 도입 전·후를 비교해 보세요.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>상황</th>
+          <th>❌ AI 도구 사용 전</th>
+          <th>✅ AI 도구 사용 후</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="situation">공지 안내방송</td>
+          <td class="before">직접 녹음 / 외부 업체 의뢰</td>
+          <td class="after">일레븐랩스로 5분 완성</td>
+        </tr>
+        <tr>
+          <td class="situation">행사 배경음악</td>
+          <td class="before">저작권 걱정, 유료 구매</td>
+          <td class="after">SUNO로 무료 맞춤 제작</td>
+        </tr>
+        <tr>
+          <td class="situation">입주민 안내</td>
+          <td class="before">전문 성우 비용 발생</td>
+          <td class="after">AI 성우로 즉시 제작</td>
+        </tr>
+        <tr>
+          <td class="situation">홍보 영상 BGM</td>
+          <td class="before">음악 검색에 시간 소요</td>
+          <td class="after">원하는 분위기 즉시 생성</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="tip-box" style="margin-top:20px">
+      <div class="tip-title">💡 핵심 효과</div>
+      <p>시간 절약 + 비용 절감 + 저작권 해결 — 세 가지를 한 번에!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── INSTALL ─── -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">앱 설치</div>
+      <h2 class="section-title">📲 설치 링크 모음</h2>
+      <p class="section-sub">PC·스마트폰 모두 무료로 사용 가능합니다.</p>
+    </div>
+    <div class="install-grid">
+      <div class="install-card">
+        <div class="app-icon">🎵</div>
+        <h3>SUNO — AI 작곡</h3>
+        <p>글자(텍스트)를 입력하면 음악을 만들어주는 AI. 악기를 몰라도 누구나 작곡가!</p>
+        <div class="install-links">
+          <a href="https://suno.com" target="_blank" class="install-link">
+            🌐 웹사이트 (PC) — suno.com <span class="badge">무료</span>
+          </a>
+          <a href="https://apps.apple.com/app/suno-ai-music/id6480031040" target="_blank" class="install-link">
+            📱 앱스토어 (iOS) — "SUNO" 검색 <span class="badge">무료</span>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=ai.suno.android" target="_blank" class="install-link">
+            🤖 플레이스토어 (Android) — "SUNO" 검색 <span class="badge">무료</span>
+          </a>
+        </div>
+      </div>
+      <div class="install-card">
+        <div class="app-icon">🎙️</div>
+        <h3>일레븐랩스 — AI 성우</h3>
+        <p>글자를 입력하면 사람처럼 읽어주는 AI 성우. 한국어 완벽 지원, 5,000개 이상 목소리!</p>
+        <div class="install-links">
+          <a href="https://elevenlabs.io" target="_blank" class="install-link">
+            🌐 웹사이트 (PC) — elevenlabs.io <span class="badge">무료</span>
+          </a>
+          <a href="https://apps.apple.com/app/elevenlabs/id6479651197" target="_blank" class="install-link">
+            📱 앱스토어 (iOS) — "ElevenLabs" 검색 <span class="badge">무료</span>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=io.elevenlabs.voicelab" target="_blank" class="install-link">
+            🤖 플레이스토어 (Android) — "ElevenLabs" 검색 <span class="badge">무료</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p>💡 <strong>로그인 방법:</strong> 두 서비스 모두 <strong>구글 계정</strong>으로 간편하게 로그인할 수 있어요. 별도 회원가입 없이 바로 시작!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SUNO ─── -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">SUNO 완전 정복</div>
+      <h2 class="section-title">🎵 SUNO 사용법 & 프롬프트</h2>
+      <p class="section-sub">3단계로 끝! 복잡한 음악 이론 없이 작곡가가 되어보세요.</p>
+    </div>
+
+    <!-- 요금제 -->
+    <h3 style="color:var(--white);margin-bottom:16px">💳 요금제 (처음엔 무료로 충분해요!)</h3>
+    <div class="plan-grid">
+      <div class="plan-card recommended">
+        <div class="plan-badge">👍 추천</div>
+        <div class="plan-name">무료 (Basic)</div>
+        <div class="plan-price">0원</div>
+        <div class="plan-detail">하루 10곡 생성<br>개인용 / 내부 업무용<br>아파트 방송·행사용 OK</div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">프로 (Pro)</div>
+        <div class="plan-price">월 15,000원</div>
+        <div class="plan-detail">하루 500곡 생성<br>상업적 사용 가능<br>유튜브·SNS 수익화 OK</div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">프리미어</div>
+        <div class="plan-price">월 46,000원</div>
+        <div class="plan-detail">하루 1,500곡 생성<br>모든 용도 OK<br>고품질 음원</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 사용법 3단계 -->
+    <h3 style="color:var(--white);margin-bottom:16px">🚀 사용법 3단계</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>로그인</h4>
+          <p>suno.com 접속 → 구글 계정으로 간편 로그인</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Create 클릭</h4>
+          <p>왼쪽 메뉴에서 Create 버튼 클릭 — 더 정교하게 만들려면 <strong>Custom Mode</strong> 활성화 (가사 직접 입력 가능)</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>프롬프트 입력 & 생성</h4>
+          <p>원하는 음악 스타일을 한글로 입력하고 Create 클릭 → 30초 후 완성!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 키워드 -->
+    <h3 style="color:var(--white);margin-bottom:8px">🔑 아파트 방송용 키워드 모음</h3>
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:16px">이 단어들을 조합하면 전문가처럼 만들 수 있어요! 영어 단어를 함께 쓰면 더 정확해요.</p>
+    <div class="kw-grid">
+      <div class="kw-card">
+        <h4>🎸 장르 (Genre)</h4>
+        <div class="kw-tags">
+          <span class="kw-tag">재즈 (Jazz)</span>
+          <span class="kw-tag">뉴에이지 (New Age)</span>
+          <span class="kw-tag">어쿠스틱 (Acoustic)</span>
+          <span class="kw-tag">클래식 (Classical)</span>
+          <span class="kw-tag">팝 (Pop)</span>
+        </div>
+      </div>
+      <div class="kw-card">
+        <h4>😊 분위기 (Mood)</h4>
+        <div class="kw-tags">
+          <span class="kw-tag">밝은 (Bright)</span>
+          <span class="kw-tag">차분한 (Calm)</span>
+          <span class="kw-tag">희망찬 (Hopeful)</span>
+          <span class="kw-tag">따뜻한 (Warm)</span>
+          <span class="kw-tag">신나는 (Energetic)</span>
+        </div>
+      </div>
+      <div class="kw-card">
+        <h4>🎹 악기 (Instrument)</h4>
+        <div class="kw-tags">
+          <span class="kw-tag">피아노 (Piano)</span>
+          <span class="kw-tag">기타 (Guitar)</span>
+          <span class="kw-tag">바이올린 (Violin)</span>
+          <span class="kw-tag">드럼 (Drum)</span>
+          <span class="kw-tag">오케스트라</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 프롬프트 모음 -->
+    <h3 style="color:var(--white);margin-bottom:16px">📋 바로 쓸 수 있는 SUNO 프롬프트</h3>
+
+    <!-- 프롬프트 1 -->
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🎪 행사 배경음악</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">밝고 신나는 분위기의 한국 축제 음악,
+아파트 주민 행사에 어울리는 경쾌한 멜로디,
+트럼펫과 피아노가 어우러진 활기찬 음악</div>
+      <div class="prompt-situation">💼 활용: 주민 체육대회, 어린이날, 가을 축제 행사 배경음악</div>
+    </div>
+
+    <!-- 프롬프트 2 -->
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🏢 로비 · 엘리베이터 배경음악</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">조용하고 편안한 카페 분위기 음악,
+아파트 로비에 어울리는 잔잔한 피아노 연주,
+소음 없이 깔끔하고 세련된 배경음악,
+가사 없는 연주곡</div>
+      <div class="prompt-situation">💼 활용: 로비·엘리베이터·관리사무소 대기 음악. 계절별로 바꿔보세요!</div>
+    </div>
+
+    <!-- 프롬프트 3 -->
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">📢 홍보 영상 배경음악</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">신뢰감 있고 따뜻한 분위기의 음악,
+아파트 홍보 영상에 어울리는 밝고 희망적인 멜로디,
+현대적이고 깔끔한 느낌의 배경음악,
+가사 없는 연주곡, 2분 길이</div>
+      <div class="prompt-situation">💼 활용: 아파트 소개 영상, 관리 실적 보고, SNS 홍보 영상</div>
+    </div>
+
+    <!-- 프롬프트 4 -->
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🎎 명절 · 계절 인사 음악</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">따뜻하고 정겨운 한국 추석 분위기 음악,
+명절 인사에 어울리는 전통적이면서도 현대적인 멜로디,
+가족의 따뜻함이 느껴지는 배경음악</div>
+      <div class="prompt-situation">💼 활용: 설날, 추석, 크리스마스, 사계절 인사 방송</div>
+    </div>
+
+    <!-- 추가 프롬프트 -->
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🌸 봄 맞이 행사 음악 (추가)</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">밝고 경쾌한 봄 축제 음악,
+아파트 주민 행사에 어울리는 신나는 멜로디,
+피아노와 기타가 어우러진 따뜻한 분위기,
+가사 없는 연주곡</div>
+      <div class="prompt-situation">💼 활용: 봄 체육대회, 꽃 축제, 새 학기 맞이 행사</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🎄 크리스마스 · 겨울 행사 (추가)</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">포근하고 따뜻한 크리스마스 분위기,
+종소리와 피아노가 어우러진 겨울 음악,
+아파트 연말 행사에 어울리는 밝고 설레는 멜로디,
+가사 없는 연주곡</div>
+      <div class="prompt-situation">💼 활용: 연말 입주민 파티, 크리스마스 로비 장식, 겨울 공지 음악</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🏋️ 스포츠 센터 · 헬스장 BGM (추가)</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">신나고 에너지 넘치는 운동 음악,
+아파트 헬스장이나 스포츠 센터에 어울리는 비트,
+EDM과 팝이 결합된 활기찬 음악,
+가사 없는 연주곡</div>
+      <div class="prompt-situation">💼 활용: 단지 내 헬스장·스포츠 센터 배경음악</div>
+    </div>
+
+    <!-- Custom Mode 가이드 -->
+    <div class="tip-box">
+      <div class="tip-title">✍️ Custom Mode — 나만의 캠페인 송 만들기</div>
+      <ul>
+        <li>상단 <strong>Custom Mode</strong> 토글 ON</li>
+        <li><strong>Lyrics (가사)</strong>: 원하는 캠페인 문구 입력</li>
+        <li><strong>Style of Music</strong>: K-Pop, Bright, Energetic 등 입력</li>
+        <li><strong>Title</strong>: 영상 제목 직접 설정</li>
+      </ul>
+      <p style="margin-top:8px">예시 가사: <em>"오늘은 분리수거 하는 날 / 깨끗한 우리 아파트 / 페트병은 씻어서 라벨은 떼고 / 함께 만들어요 행복한 마을"</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 일레븐랩스 ─── -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">일레븐랩스 완전 정복</div>
+      <h2 class="section-title">🎙️ 일레븐랩스 사용법 & 프롬프트</h2>
+      <p class="section-sub">타이핑만 하면 AI가 사람처럼 읽어줍니다. 한국어 완벽 지원!</p>
+    </div>
+
+    <!-- 요금제 -->
+    <h3 style="color:var(--white);margin-bottom:16px">💳 요금제</h3>
+    <div class="plan-grid">
+      <div class="plan-card recommended">
+        <div class="plan-badge">👍 시작 추천</div>
+        <div class="plan-name">무료 (Free)</div>
+        <div class="plan-price">0원</div>
+        <div class="plan-detail">월 10,000자<br>A4 5~6장 / 약 10분 분량<br>한 달 공지사항 충분!</div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">스타터</div>
+        <div class="plan-price">월 7,250원</div>
+        <div class="plan-detail">월 30,000자<br>상업적 사용 가능</div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">크리에이터</div>
+        <div class="plan-price">월 31,900원</div>
+        <div class="plan-detail">월 100,000자<br>고품질 음성, 모든 용도</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 사용법 -->
+    <h3 style="color:var(--white);margin-bottom:16px">🚀 사용법 3단계</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>로그인</h4>
+          <p>elevenlabs.io 접속 → 구글 계정으로 로그인</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Text to Speech 선택 & 목소리 설정</h4>
+          <p>언어: Korean 선택 → 원하는 목소리(남성/여성, 차분/밝음) 선택 → 속도·톤 조절</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>텍스트 입력 → Generate → 다운로드</h4>
+          <p>안내 대본을 입력하고 Generate 클릭! MP3 파일로 저장해서 방송 장비에 바로 사용</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">💡 자연스러운 발음을 위한 꿀팁</div>
+      <ul>
+        <li>문장 끝에 반드시 <strong>마침표(.)</strong>를 찍어야 AI가 숨을 쉬며 자연스럽게 읽어요!</li>
+        <li>강조할 부분엔 <strong>느낌표(!)</strong> 사용</li>
+        <li>쉬어가는 부분엔 <strong>쉼표(,)</strong> 활용</li>
+        <li>따뜻한 느낌엔 <strong>물결(~)</strong> 도 효과적!</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Voice Settings -->
+    <h3 style="color:var(--white);margin-bottom:16px">🎛️ 목소리 세부 설정 가이드</h3>
+    <div class="settings-grid">
+      <div class="settings-card">
+        <div class="icon">😐</div>
+        <h4>차분한 안내</h4>
+        <p>일반 공지사항, 생활 안내</p>
+        <div class="val">Stability 70%</div>
+        <p>문장 부호: 마침표(.)</p>
+      </div>
+      <div class="settings-card">
+        <div class="icon">📢</div>
+        <h4>다급한 경고</h4>
+        <p>화재 경보, 태풍/비상 대피</p>
+        <div class="val">Stability 50%</div>
+        <p>문장 부호: 느낌표(!)</p>
+      </div>
+      <div class="settings-card">
+        <div class="icon">😊</div>
+        <h4>따뜻한 인사</h4>
+        <p>명절 인사, 감사 메시지</p>
+        <div class="val">Stability 30%</div>
+        <p>문장 부호: 쉼표(,), 물결(~)</p>
+      </div>
+    </div>
+    <div class="info-box">
+      <p>📻 <strong>아파트 안내방송 기본 추천 설정:</strong> Stability <strong>70%</strong> / Similarity <strong>80%</strong></p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 대본 프롬프트 -->
+    <h3 style="color:var(--white);margin-bottom:16px">📋 바로 쓸 수 있는 안내방송 대본</h3>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🚗 주차장 공사 안내</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">안녕하세요, 입주민 여러분. ○○ 아파트 관리사무소입니다.
+오는 3월 20일 목요일 오전 10시부터 오후 2시까지
+지하 1층 주차장 도색 공사가 진행될 예정입니다.
+해당 시간에는 지하 주차장 이용이 불가하오니,
+지상 주차장을 이용해 주시기 바랍니다. 감사합니다.</div>
+      <div class="prompt-situation">💼 설정: Stability 70% / 마침표 사용 / 차분한 여성 목소리 추천</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🛗 엘리베이터 안전 안내</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">안녕하세요.
+이 엘리베이터는 최대 탑승 인원 13명,
+최대 적재 하중 1,000킬로그램입니다.
+정원 초과 시 문이 닫히지 않으니
+안전을 위해 정원을 꼭 지켜 주세요. 감사합니다.</div>
+      <div class="prompt-situation">💼 설정: Stability 70% / 반복 재생 가능 / 언제든 내용 수정 가능</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">♻️ 분리수거 안내방송</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">입주민 여러분께 안내 말씀 드립니다.
+이번 주 목요일은 대형 폐기물 특별 수거일입니다.
+냉장고, 세탁기, 소파 등 대형 폐기물은
+관리사무소에 미리 신청해 주시기 바랍니다.
+신청 전화번호는 000-0000입니다. 감사합니다.</div>
+      <div class="prompt-situation">💼 설정: Stability 70% / 매주 반복 사용 가능 / 전화번호만 바꿔서 활용</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🌪️ 태풍 긴급 안내방송</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">입주민 여러분, 긴급 안내 말씀 드립니다!
+오늘 오후부터 강한 태풍이 예상됩니다!
+베란다 화분, 자전거 등 낙하 위험이 있는 물건은
+실내로 옮겨 주시기 바랍니다!
+외출 시 각별히 주의해 주시고, 안전에 유의해 주시기 바랍니다.</div>
+      <div class="prompt-situation">💼 설정: Stability 50% / 느낌표(!) 사용 / 긴급함 전달</div>
+    </div>
+
+    <!-- 추가 대본들 -->
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🎊 명절 인사 방송 (추가)</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">입주민 여러분, 안녕하세요~
+○○ 아파트 관리사무소입니다.
+따뜻한 설날을 맞이하여 입주민 여러분 모두
+새해 복 많이 받으시고, 건강하고 행복한 한 해 되시길 바랍니다.
+저희 관리사무소는 설 연휴 기간에도 비상 연락처(000-0000)를
+운영하오니 급한 사항이 있으시면 언제든지 연락 주세요. 감사합니다.</div>
+      <div class="prompt-situation">💼 설정: Stability 30% / 쉼표와 물결(~) 사용 / 따뜻한 여성 목소리 추천</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🔧 시설 점검 공지 (추가)</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">입주민 여러분께 안내 말씀 드립니다.
+오는 [날짜] [요일] 오전 [시간]부터 오후 [시간]까지
+[시설명] 정기 점검이 실시될 예정입니다.
+점검 시간 동안 [영향 사항]이 발생할 수 있으니 양해 부탁드립니다.
+문의 사항은 관리사무소(000-0000)로 연락 주시기 바랍니다. 감사합니다.</div>
+      <div class="prompt-situation">💼 팁: [ ] 안의 내용만 바꿔서 모든 시설 점검에 재사용 가능!</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">🔥 화재 예방 안내 (추가)</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사하기</button>
+      </div>
+      <div class="prompt-body">입주민 여러분께 안전 안내 말씀 드립니다.
+건조한 날씨가 계속되어 화재 위험이 높아지고 있습니다.
+외출 시 가스 밸브를 반드시 잠가 주시고,
+콘센트 주변의 먼지를 주기적으로 청소해 주시기 바랍니다.
+화재 발생 시 즉시 119에 신고해 주세요. 안전한 우리 아파트를 함께 만들어 갑시다.</div>
+      <div class="prompt-situation">💼 설정: Stability 60% / 계절별·날씨별로 활용 / 화재 예방 주간에 추천</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 결합 활용 ─── -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">심화 활용</div>
+      <h2 class="section-title">⚡ SUNO + 일레븐랩스 결합하면?</h2>
+      <p class="section-sub">두 가지를 함께 쓰면 전문 제작팀 수준의 영상을 만들 수 있어요!</p>
+    </div>
+    <div class="flow">
+      <div class="flow-item">
+        <div class="flow-num">1</div>
+        <h4>🎵 SUNO</h4>
+        <p>행사 분위기에 맞는 배경음악 생성</p>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">2</div>
+        <h4>🎙️ 일레븐랩스</h4>
+        <p>행사 안내 멘트 음성 생성</p>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">3</div>
+        <h4>📱 영상 편집</h4>
+        <p>음악 + 음성 + 사진 합치기 (캡컷 등)</p>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">4</div>
+        <h4>📢 공유</h4>
+        <p>카카오톡/밴드로 입주민에게 전달</p>
+      </div>
+    </div>
+    <div class="tip-box" style="margin-top:24px">
+      <div class="tip-title">🎯 결과: 고품질 홍보 영상 완성, 제작 비용 0원!</div>
+      <p>예전엔 외주 업체에 맡겼던 작업을 이제 관리사무소에서 직접 만들 수 있어요.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 추가 활용 아이디어 -->
+    <h3 style="color:var(--white);margin-bottom:16px">💡 이런 것도 할 수 있어요! (확장 활용)</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">+</div>
+        <div class="step-content">
+          <h4>📅 월별 배경음악 캘린더 만들기</h4>
+          <p>1월=새해 희망찬 음악, 3월=봄 산뜻한 음악, 10월=가을 감성 음악... 월별로 분위기 다른 로비 BGM 12개 미리 제작해두기</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">+</div>
+        <div class="step-content">
+          <h4>🎤 관리소장 맞춤 목소리 만들기</h4>
+          <p>일레븐랩스에서 Voice Cloning 기능 활용 — 소장님의 실제 목소리를 학습시켜 AI가 동일한 목소리로 읽어주는 것도 가능 (유료 플랜)</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">+</div>
+        <div class="step-content">
+          <h4>🌐 다국어 안내방송 제작</h4>
+          <p>일레븐랩스는 70개 이상 언어 지원 — 외국인 입주민이 많다면 영어·중국어 안내방송도 쉽게 제작 가능</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">+</div>
+        <div class="step-content">
+          <h4>📱 SNS 홍보 숏폼 영상</h4>
+          <p>SUNO 배경음악 + 일레븐랩스 내레이션 + 스마트폰 사진으로 아파트 유튜브/인스타 숏폼 영상 제작</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 저작권 정리 ─── -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">저작권 안내</div>
+      <h2 class="section-title">⚖️ 저작권 걱정 없이 쓰는 법</h2>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>도구</th>
+          <th>무료 플랜</th>
+          <th>유료 플랜</th>
+          <th>주택관리 실무</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🎵 SUNO</td>
+          <td class="after">개인·내부 업무용 OK</td>
+          <td class="after">상업적 사용·수익화 OK</td>
+          <td class="after">아파트 내부 방송·행사 → 무료 OK</td>
+        </tr>
+        <tr>
+          <td>🎙️ 일레븐랩스</td>
+          <td class="after">개인·내부 업무용 OK</td>
+          <td class="after">상업적 이용·SNS 수익화 OK</td>
+          <td class="after">관리사무소 내부용 → 무료 OK</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-box" style="margin-top:16px">
+      <ul>
+        <li>유튜브 업로드 시 출처 표기 권장 (SUNO)</li>
+        <li>타인의 목소리 무단 복제 금지 (일레븐랩스)</li>
+        <li>유명인·연예인 목소리 모방 금지</li>
+        <li>⭐ 아파트 내부 방송·행사·공지는 <strong>무료 플랜으로 충분!</strong></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── YOUTUBE CTA ─── -->
+<section>
+  <div class="container">
+    <div class="yt-cta">
+      <h3>🎬 더 많은 AI 실무 활용법이 궁금하다면?</h3>
+      <p>AI 커머스 브레인 유튜브에서 최신 AI 도구 활용법을 매주 업로드합니다.<br>
+      구독하고 알림 설정하면 새 영상을 바로 받아볼 수 있어요!</p>
+      <a href="https://www.youtube.com/@aiebrain" target="_blank" class="btn btn-youtube" style="font-size:1rem;padding:14px 32px">
+        ▶ AI 커머스 브레인 구독하기
+      </a>
+      <p style="margin-top:16px;font-size:.85rem;color:#888">강사 이만성 (이브레인) · AI 커머스 / 디지털 마케팅 전문가</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <p>📚 주택관리사 AI 실무 교육 3회차 수강생 가이드 · 2026년 3월</p>
+    <p style="margin-top:8px">강사 이만성 (이브레인) ·
+      <a href="https://www.youtube.com/@aiebrain" target="_blank">YouTube</a> ·
+      <a href="https://suno.com" target="_blank">SUNO</a> ·
+      <a href="https://elevenlabs.io" target="_blank">ElevenLabs</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+function copyPrompt(btn) {
+  const body = btn.closest('.prompt-card').querySelector('.prompt-body');
+  navigator.clipboard.writeText(body.innerText).then(() => {
+    btn.textContent = '✅ 복사됨!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '복사하기';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
